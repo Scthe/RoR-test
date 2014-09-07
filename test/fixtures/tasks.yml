@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id_id: 
+  personResponsible_id: 
+  title: MyString
+  type: 1
+  deadline: 2014-09-07
+  description: MyText
+  created_by_id: 
+
+two:
+  project_id_id: 
+  personResponsible_id: 
+  title: MyString
+  type: 1
+  deadline: 2014-09-07
+  description: MyText
+  created_by_id: 
