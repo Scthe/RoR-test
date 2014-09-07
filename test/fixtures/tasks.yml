@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  project_id_id: 
-  personResponsible_id: 
-  title: MyString
-  type: 1
+task_a:
+  project_id: project_a
+  person_responsible_id: user_a 
+  title: Task 1
+  task_type: 1
   deadline: 2014-09-07
   description: MyText
-  created_by_id: 
+  created_by_id: user_a
 
-two:
-  project_id_id: 
-  personResponsible_id: 
-  title: MyString
-  type: 1
-  deadline: 2014-09-07
-  description: MyText
-  created_by_id: 
+task_b:
+  project_id: project_b
+  person_responsible_id:
+  title: Task 2
+  task_type: 3
+  deadline:
+  description:
+  created_by_id: user_b
