@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 	def index
 		# render "hi !"
 		@user = stub_user
+		render layout: true
 	end
 
 	def stub_user
