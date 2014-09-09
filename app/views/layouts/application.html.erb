@@ -48,13 +48,13 @@
 			</div>
 			<% end %>
 
-			<%# <a href="{% url 'user_project_list' user.id %}"> %>
+			<%= link_to projects_path do %>
 			<div data-page-type="projects" class="navigation-button">
 				<div id="color-strip-projects" class="navigation-button-color"></div>
 				<span class="glyphicon glyphicon-folder-open navigation-panel-icon"></span>
 				<label data-translate="my_projects">My projects</label>
 			</div>
-		<%# </a> %>
+			<% end %>
 
 		<%# <a href="{% url 'user_tasks_list' user.id %}"> %>
 			<div data-page-type="tasks" class="navigation-button">
@@ -81,16 +81,15 @@
 		<header id="view-header">
 			<span class="glyphicon glyphicon-folder-open"></span>
 			<span id="view-title">
-				<%# {% block title %}{% endblock %} %>
+				<%= yield :title %>
 			</span>
 
 			<div id="view-header-right">
-				<%# {% block title_right %}{% endblock %} %>
+				<%= yield :title_right %>
 			</div>
 		</header>
 
 		<div id="center-content">
-			<%# {% block content %}{% endblock %} %>
 			<%= yield %>
 		</div>
 
@@ -99,7 +98,7 @@
 	<!--page content end-->
 </div>
 
-<%# {% block page_end %}{% endblock %} %>
+<%= yield :page_end %>
 
 <script>
 	var a = $("[data-page-type='{{ data_page_type }}']");
