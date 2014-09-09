@@ -12,4 +12,7 @@
 //
 //= require jquery
 //= require turbolinks
+//= require underscore-min
+//= require bootstrap-slider
 //= require_tree .
+

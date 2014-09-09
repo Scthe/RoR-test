@@ -4,6 +4,7 @@ class ProjectsController < ApplicationController
 		@user = ApplicationController.stub_user
 		@task_count = 5
 		@tasks_list
+		
 		p = ProjectsController.stub_project @user
 		@projects = [p,p,p]
 
@@ -15,8 +16,23 @@ class ProjectsController < ApplicationController
 	end
 
 	def new
+		@user = ApplicationController.stub_user
+		@task_count = 5
+		@tasks_list
+
+		@project = Project.new
+
+		render layout: true
+	end
+
+	#
+	#forms
+	def create
 		
 	end
+
+	#
+	#stubs
 
 	def self.stub_project( user)
 		# TODO move getting user to separate module

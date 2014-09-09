@@ -7,6 +7,6 @@ Rails.application.config.assets.version = '1.0'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
 
-Rails.application.config.assets.precompile += ['bootstrap.css']
+Rails.application.config.assets.precompile += ['bootstrap.css', 'projects.js', 'bootstrap.js', 'underscore-min.js', 'bootstrap-slider.js' ]
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')  
 Rails.application.config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
