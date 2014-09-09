@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'settings' => 'application#settings'
+  get 'logout' => 'application#logout'
+
   resources :projects
 
   root 'application#index'

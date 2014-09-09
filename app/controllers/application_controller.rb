@@ -5,10 +5,23 @@ class ApplicationController < ActionController::Base
 
 	def index
 		# TODO use jade
+		# TODO add languages using some gem
 		@user = stub_user
+		@task_count = 5 # TODO test this
 		render layout: true
 	end
 
+	def settings
+		@user = stub_user
+		@task_count = 5
+		render layout: true
+	end
+
+	def logout
+		redirect_to "/"
+	end
+
+	private
 	def stub_user
 		# TODO move getting user to separate module
 		User.new.tap do |u|
