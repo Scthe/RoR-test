@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'logout' => 'application#logout'
 
   resources :projects
+  resources :tasks
 
   root 'application#index'
 
