@@ -58,7 +58,8 @@ class ProjectsController < ApplicationController
 			t.task_type = 1
 			# t.deadline: 2014-09-07
 			t.description = 'MyText'
-			t.created_by_id = user
+			t.created_by = user
+			# t.files = []
 		end
 	end
 
