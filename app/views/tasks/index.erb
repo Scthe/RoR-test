@@ -1,0 +1,39 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag 'tasks', media: 'all', 'data-turbolinks-track' => true %>
+<% end %>
+
+<% content_for :title do %>
+<span data-translate="my_tasks">My tasks</span>
+<% end %>
+
+<table id="tasks-table">
+    <tr>
+        <th class="tasks-cell tasks-col1" data-translate="active">Active</th>
+        <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
+        <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
+        <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
+    </tr>
+
+    <% @tasks.each do |task| %>
+    <tr>
+        <td class="tasks-cell tasks-col1"></td>
+        <td class="tasks-cell tasks-col2">
+            <%= link_to task.title, task_path(task) %>
+        </td>
+        <td class="tasks-cell tasks-col3">
+            <% if task.person_responsible.nil? %>
+            <span data-translate="not_assigned">Not assigned yet</span>
+            <% else %>
+            <%# TODO link to person responsible %>
+            <%# <a href="<% url 'public_profile' task.personResponsible.id % >"> %>
+                <% some_local = task.person_responsible.firstname %>
+                <% task.person_responsible.firstname = task.person_responsible.username if local_assigns[:some_local].nil? %>
+                <%= some_local %>&nbsp;<%= task.person_responsible.lastname %>
+            <%# </a> %>
+            <% end %>
+        </td>
+        <%# td class="tasks-cell tasks-col4">{{ task.deadline|date:"d-m-Y" }}</td %>
+        <td class="tasks-cell tasks-col4"><%= task.deadline %></td>
+    </tr>
+    <% end %>
+</table>

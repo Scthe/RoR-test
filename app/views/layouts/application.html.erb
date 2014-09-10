@@ -56,7 +56,7 @@
 			</div>
 			<% end %>
 
-		<%# <a href="{% url 'user_tasks_list' user.id %}"> %>
+			<%= link_to tasks_path do %>
 			<div data-page-type="tasks" class="navigation-button">
 				<div id="color-strip-tasks" class="navigation-button-color"></div>
 				<span class="glyphicon glyphicon-list navigation-panel-icon"></span>
@@ -65,7 +65,7 @@
 				<p class="black-overlay"><%= @task_count %></p>
 				<% end %>
 			</div>
-		<%# </a> %>
+			<% end %>
 
 		<%# <a href="{% url 'friends_list' user.id %}"> %>
 			<div data-page-type="friends" class="navigation-button">
