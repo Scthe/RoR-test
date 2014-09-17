@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 		# TODO use jade
 		# TODO add languages using some gem
 		@user = ApplicationController.stub_user
-		@task_count = 5 # TODO test this
+		@task_count = 5
 		render layout: true
 	end
 
