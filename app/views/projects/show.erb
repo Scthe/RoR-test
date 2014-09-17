@@ -81,8 +81,7 @@
             </td>
             <td class="tasks-cell tasks-col3">
               <% unless task.person_responsible.nil? %>
-                <%# TODO a href="{% url 'public_profile' task.personResponsible.id %}" %>
-                    <%= task.person_responsible.preety_print %>
+                    <%= link_to task.person_responsible.preety_print, user_path(task.person_responsible) %>
               <% else %>
                   <span data-translate="not_assigned">Not assigned yet</span>
               <% end %>

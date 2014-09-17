@@ -48,9 +48,8 @@
                     <br />
                     <span class="details-info">
                         <% unless @task.person_responsible.nil? %>
-                            <%#a href="<% url 'public_profile' task.personResponsible.id % >"%>
-                            <%= @task.person_responsible.preety_print %>
-                        <% else %>
+                            <%= link_to @task.person_responsible.preety_print, user_path(@task.person_responsible) %>
+                          <% else %>
                             <span data-translate="not_assigned">Not assigned yet</span>
                         <% end %>
                     </span>
@@ -66,7 +65,7 @@
                     <br />
                     <%# <a href="<% url 'public_profile' task.createdBy.id % >"> %>
                     <span class="details-info" style="color: #428bca !important;">
-                        <%= @task.created_by.preety_print %>
+                        <%= link_to @task.created_by.preety_print, user_path(@task.created_by) %>
                     </span>
                     </a>
                 </p>
