@@ -19,4 +19,10 @@ class User < ActiveRecord::Base
     #t.date :birthdate
 =end
 
+	def preety_print
+		n = firstname
+		n ||= username
+		l = lastname
+		if l.nil? then n else n + " " + l end
+	end
 end

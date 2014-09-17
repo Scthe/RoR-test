@@ -49,9 +49,7 @@
                     <span class="details-info">
                         <% unless @task.person_responsible.nil? %>
                             <%#a href="<% url 'public_profile' task.personResponsible.id % >"%>
-                            <% some_local = @task.person_responsible.firstname %>
-                            <% @task.person_responsible.firstname = @task.person_responsible.username if local_assigns[:some_local].nil? %>
-                            <%= some_local %>&nbsp;<%= @task.person_responsible.lastname %>
+                            <%= @task.person_responsible.preety_print %>
                         <% else %>
                             <span data-translate="not_assigned">Not assigned yet</span>
                         <% end %>
@@ -68,9 +66,7 @@
                     <br />
                     <%# <a href="<% url 'public_profile' task.createdBy.id % >"> %>
                     <span class="details-info" style="color: #428bca !important;">
-                        <% some_local = @task.created_by.firstname %>
-                        <% @task.created_by.firstname = @task.created_by.username if local_assigns[:some_local].nil? %>
-                        <%= some_local %>&nbsp;<%= @task.created_by.lastname %>
+                        <%= @task.created_by.preety_print %>
                     </span>
                     </a>
                 </p>

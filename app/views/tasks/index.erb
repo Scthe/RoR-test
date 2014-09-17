@@ -22,13 +22,10 @@
         </td>
         <td class="tasks-cell tasks-col3">
             <% if task.person_responsible.nil? %>
-            <span data-translate="not_assigned">Not assigned yet</span>
+                <span data-translate="not_assigned">Not assigned yet</span>
             <% else %>
-            <%# TODO link to person responsible %>
-            <%# <a href="<% url 'public_profile' task.personResponsible.id % >"> %>
-                <% some_local = task.person_responsible.firstname %>
-                <% task.person_responsible.firstname = task.person_responsible.username if local_assigns[:some_local].nil? %>
-                <%= some_local %>&nbsp;<%= task.person_responsible.lastname %>
+            <%# TODO <a href="<% url 'public_profile' task.personResponsible.id % >"> %>
+                <%= task.person_responsible.preety_print %>
             <%# </a> %>
             <% end %>
         </td>

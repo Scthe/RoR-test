@@ -14,7 +14,13 @@ class ProjectsController < ApplicationController
 	end
 
 	def show
+		@user = ApplicationController.stub_user
+		@task_count = 5
 
+		@project = ProjectsController.stub_project @user
+		@can_edit = true
+
+		render layout: true
 	end
 
 	def new
@@ -44,11 +50,14 @@ class ProjectsController < ApplicationController
 			p.complete = 50
 			p.description = 'Null desc !'
 			p.created_by_id = user
+
+			t = ProjectsController.stub_task( user, p)
+			p.tasks = [t,t,t,t]
 		end
 	end
 
-	def self.stub_task( user)
-		p = ProjectsController.stub_project user
+	def self.stub_task( user, p=nil)
+		p ||= ProjectsController.stub_project user
 
 		Task.new.tap do |t|
 			t.id = 1
