@@ -1,0 +1,173 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "project", :media => "all" %>
+    <%= javascript_include_tag 'underscore', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'bootstrap-slider', 'data-turbolinks-track' => true %>
+<% end %>
+
+<% content_for :title do %>
+   <%= @project.name %>
+<% end %>
+
+<% content_for :title_right do %>
+   <h2>
+   <%= @project.complete %>% <span data-translate="complete">complete</span>
+   </h2>
+<% end %>
+
+<% content_for :page_end do %>
+    <%= javascript_include_tag 'projects', 'data-turbolinks-track' => true %>
+
+    <script language="JavaScript">
+        $(document).ready(function() {
+            $('#project-form').submit(function(event) {
+                event.preventDefault();
+                console.log(submitName );
+                //if (submitName === "Delete"){
+                //    deleteProject( "{% url 'project_list' %}");
+                //}else{
+                //    editProject("{% url 'project_edit' project.id %}","{% url 'project' project.id %}");
+                //}
+            });
+        });
+    </script>
+<% end %>
+
+
+
+<%= form_for @project, :html => { :id => "project-form" } do |p| %>
+    
+    <section class="data-section">
+        <%= p.label :name, { :data_translate => "name"} %>
+        <%= p.text_field :name, { :class => "form-control", :id => "id_name", :placeholder=>"Name.." } %>
+    </section>
+
+    <section class="data-section">
+        <%= p.label :complete, "Completion status", { :data_translate => "complete_status" } %>
+        
+        <%# p.text_field :__complete, { :id => "__id_complete",
+            :data => { 'slider-id' => 'completionSlider',
+                'slider-min' => "0", 'slider-max' => "100",
+                'slider-step' => "5", 'slider-value' => "50"} } %>
+        <input id="__id_complete" name="__complete" data-slider-id='completionSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="<%= @project.complete %>"/>
+        
+        <span style="font-weight: 800" id="completion-slider-val"><%= @project.complete %> % complete</span>
+        
+        <%# real input field %>
+        <%= p.text_field :complete, { :id => "id_abc", :style => "display:none" } %>
+    </section>
+
+    <section class="data-section">
+        <%= p.label :description, { :data_translate => "description"} %>
+        <%= p.text_area :description, { :class => "form-control", :id => "id_description", :rows => "3", :placeholder => "Add description.."} %>
+    </section>
+
+    <!-- tasks -->
+    <section class="data-section">
+        <div id="view-header-right">
+            <%# TODO href="{% url 'task_create' project.id %}"%>
+            <div id="task-create" class="project-button">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span data-translate="task_add">add new task</span>
+            </div>
+        </div>
+
+        <header class="clearfix" data-translate="my_tasks">Tasks</header>
+        <table id="tasks-table">
+            <tr>
+                <th class="tasks-cell tasks-col1" data-translate="active">">Active</th>
+                <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
+                <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
+                <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
+            </tr>
+
+            <% @project.tasks.each do |task| %>
+            <tr data-task-id="{{ task.id }}">
+                <td class="tasks-cell tasks-col1"></td>
+                <td class="tasks-cell tasks-col2"><%= task.title %></td>
+                <td class="tasks-cell tasks-col3">
+                    <% unless task.person_responsible.nil? %>
+                        <%= link_to task.person_responsible.preety_print, user_path(task.person_responsible) %>
+                    <% else %>
+                        <span data-translate="not_assigned">Not assigned yet</span>
+                    <% end %>
+                </td>
+                <td class="tasks-cell tasks-col4"><%= task.deadline %></td>
+                <td class="tasks-cell tasks-col4 tasks-edit">
+                    <%= link_to "Edit", edit_task_path(task) %>
+                </td>
+                 <td class="tasks-cell tasks-col4 tasks-edit task-remove">
+                   <span class="glyphicon glyphicon-remove"></span>
+                </td>
+            </tr>
+            <% end %>
+
+        </table>
+    </section>
+
+    <%#
+    <section class="data-section">
+        <div id="view-header-right" class="clearfix">
+            <div id="person-add" class="project-button">
+                <span class="glyphicon glyphicon-plus" ></span>
+                <span data-translate="add_project_person">add new person</span>
+            </div>
+        </div>
+        <header class="clearfix" data-translate="project_people">People</header>
+        <!--TODO for each person add connection type: { admin/progr./etc}-->
+        <ul id="people-list" class="clearfix">
+            {% for person in project.people %}
+            <li class="people-list-item" data-person-id="{{ person.id }}">
+                <p class="person-remove remove-button">
+                    <span class="glyphicon glyphicon-remove"></span>
+                <p>
+                <img src="{{ STATIC_URL }}{{ person.avatarPath}}">
+                {{ person.first_name|default:person.username }}&nbsp;{{ person.last_name }}
+            </li>
+            {% endfor %}
+
+        </ul>
+    </section>
+
+    <section class="data-section">
+        <header data-translate="files">Files</header>
+        <ul id="files-list" class="clearfix">
+            {% for file in project.files %}
+            <li class="files-list-item" data-type="{{file.type|lower}}" data-file-id="{{ file.id }}">
+
+                <!--icon-->
+                {% if file.type == "Document" %}
+                    <span class="glyphicon glyphicon-file"></span>
+                {% else %}
+                    {% if file.type == "Image" %}
+                        <span class="glyphicon glyphicon-camera"></span>
+                    {% else %}
+                        {% if file.type == "Sound" %}
+                            <span class="glyphicon glyphicon-music"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-paperclip"></span>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+                 <!--file name-->
+                <b>_{{ file.name }}_</b>
+                <p class="file-remove remove-button">
+                    <span class="glyphicon glyphicon-remove"></span>
+                <p>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </section>
+    %>
+
+    <!--save and back buttons-->
+    <%= link_to project_path(@project) do %>
+        <div class="project-button pull-left">
+            <span data-translate="back">Back</span>
+        </div>
+    <% end %>
+
+    <%= p.submit :submit, { :value => "Save", :class => "project-button pull-right", :onclick => "setSubmit(this)", :data_translate => "save" } %>
+    <%= p.submit :submit, { :value => "Delete", :class => "project-button pull-right", :onclick => "setSubmit(this)", :data_translate => "delete" } %>
+<% end %>

@@ -23,6 +23,17 @@ class ProjectsController < ApplicationController
 		render layout: true
 	end
 
+	def edit
+		@user = ApplicationController.stub_user
+		@task_count = 5
+		@tasks_list
+
+		@project = ProjectsController.stub_project @user
+		@can_edit = true
+
+		render layout: true
+	end
+
 	def new
 		@user = ApplicationController.stub_user
 		@task_count = 5
@@ -47,7 +58,7 @@ class ProjectsController < ApplicationController
 		Project.new.tap do |p|
 			p.id = 1
 			p.name = 'ProjectA'
-			p.complete = 50
+			p.complete = 33
 			p.description = 'Null desc !'
 			p.created_by_id = user
 

@@ -20,4 +20,8 @@ class TasksController < ApplicationController
 		@can_edit = true
 	end
 
+	def edit
+		
+	end
+
 end
