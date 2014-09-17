@@ -1,0 +1,137 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag 'tasks', media: 'all', 'data-turbolinks-track' => true %>
+<% end %>
+
+<% content_for :title do %>
+    <%= @task.title %>
+    <% if @can_edit %>
+        <%= link_to edit_task_path( @task) do %>
+             <span id="edit-button">edit</span>
+        <% end %>
+    <% end %>
+<% end %>
+
+<% content_for :title_right do %>
+     <%# for tT_short, tT_name in taskTypes %>
+        <%# if task.type == tT_short %>
+            <%#h2><%= tT_name % ></h2%>
+        <%# endif %>
+    <%# endfor %>
+<% end %>
+
+<% content_for :page_end do %>
+    <%= javascript_include_tag 'tasks', 'data-turbolinks-track' => true %>
+
+    <script language="JavaScript">
+        $(document).ready(function() {
+            $('#comment-form').submit(function(event) {
+                //addComment("__ url 'task_comment' task.id __");
+                console.log('was blocked in show.erb')
+                event.preventDefault();
+            });
+        });
+    </script>
+<% end %>
+
+
+
+<section class="clearfix">
+    <div class="left-cell">
+        <h1 data-translate="description">Description</h1>
+        <p><%= @task.description %></p>
+    </div>
+    <div class="right-cell">
+        <ul id="details-list">
+            <li class="details-list-item">
+                <p>
+                    <b data-translate="assigned_to">Assigned to</b>
+                    <br />
+                    <span class="details-info">
+                        <% unless @task.person_responsible.nil? %>
+                            <%#a href="<% url 'public_profile' task.personResponsible.id % >"%>
+                            <% some_local = @task.person_responsible.firstname %>
+                            <% @task.person_responsible.firstname = @task.person_responsible.username if local_assigns[:some_local].nil? %>
+                            <%= some_local %>&nbsp;<%= @task.person_responsible.lastname %>
+                        <% else %>
+                            <span data-translate="not_assigned">Not assigned yet</span>
+                        <% end %>
+                    </span>
+                </p>
+            </li>
+            <li class="details-list-item">
+                <p><b data-translate="deadline">Deadline</b>
+                <br />
+                <span class="details-info"><%= @task.deadline %></span></p>
+            </li>
+            <li class="details-list-item">
+                <p><b data-translate="created_by">Created by</b>
+                    <br />
+                    <%# <a href="<% url 'public_profile' task.createdBy.id % >"> %>
+                    <span class="details-info" style="color: #428bca !important;">
+                        <% some_local = @task.created_by.firstname %>
+                        <% @task.created_by.firstname = @task.created_by.username if local_assigns[:some_local].nil? %>
+                        <%= some_local %>&nbsp;<%= @task.created_by.lastname %>
+                    </span>
+                    </a>
+                </p>
+            </li>
+            <li class="details-list-item">
+                <p><b data-translate="created_date">Creation date</b>
+                <br />
+                <span class="details-info"><%= @task.created_at %></span></p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<%# 
+<section class="data-section">
+    <header data-translate="files">Files</header>
+    <ul id="files-list" class="clearfix">
+
+        <% @task.files .each do |file|% >
+        <li class="files-list-item" data-type="<%=file.type|lower% >">
+                <!--icon-->
+                <% if file.type == "Document" % >
+                    <span class="glyphicon glyphicon-file"></span>
+                <% else % ><% if file.type == "Image" % >
+                    <span class="glyphicon glyphicon-camera"></span>
+                <% else % ><% if file.type == "Sound" % >
+                    <span class="glyphicon glyphicon-music"></span>
+                <% else % >
+                    <span class="glyphicon glyphicon-paperclip"></span>
+                <% end % ><% end % ><% end % >
+
+                <!--file name-->
+                <b>_<%= file.name % >_</b>
+        </li>
+        <% end % >
+    </ul>
+</section>
+
+
+<section class="comments-section">
+    <header data-translate="comments">Comments</header>
+    <ul id="comments-list">
+
+        <% for taskComment in task.comments % >
+            <li class="comments-list-item">
+                <b>
+                    <%= taskComment.createdBy.first_name|default:taskComment.createdBy.username % >&nbsp;<%= taskComment.createdBy.last_name % >
+                </b>
+                <span class="comments-time"><%= taskComment.created|date:"d-m-Y" % ></span>
+                <p><%= taskComment.text % ></p>
+            </li>
+        <% endfor % >
+    </ul>
+</section>
+
+<!--TODO : canAddComment-->
+<% if canAddComment % >
+<form id="comment-form" action="" method="post"><% csrf_token % >
+    <textarea class="form-control" id="task-new-comment" rows="3" name="new-comment-text" placeholder="Comment text.." data-translate="task_comment_default"></textarea>
+    <input type="submit" value="Add comment" class="task-button pull-right"/>
+</form>
+<% end % >
+
+%>

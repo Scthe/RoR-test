@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  username: MyString
-  firstname: MyString
-  lastname: MyString
-  email: MyString
+user_a:
+  username: Georg
+  firstname: George
+  lastname: Washington
+  email: gw@gov.org
   password: MyString
-  is_active: false
+  is_active: true
   birthdate: 2014-09-03
 
-two:
-  username: MyString
-  firstname: MyString
-  lastname: MyString
-  email: MyString
+user_b:
+  username: Abra
+  firstname: Abraham
+  lastname: Lincoln
+  email: al@gov.org
   password: MyString
-  is_active: false
+  is_active: true
   birthdate: 2014-09-03

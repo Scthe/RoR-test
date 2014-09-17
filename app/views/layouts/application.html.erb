@@ -1,14 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tasker</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+	<title>Tasker</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= stylesheet_link_tag    'bootstrap', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
 </head>
-<body>
 
-<%= yield %>
+<body id="page-background">
+	<div id="page-content">
+
+		<!-- top navbar -->
+		<div id="navigation-bar" class="ui-mid-gray">
+			<!--TODO logout button-->
+			<%= link_to logout_path do%>
+			<span id="navigation-bar-logout" class="glyphicon glyphicon-remove navigation-bar-icon hoverable"></span>
+			<% end %>
+
+			<%= link_to settings_path do %>
+				<span id="navigation-bar-settings" class="glyphicon glyphicon-cog navigation-bar-icon hoverable"></span>
+			<% end %>
+			
+			<%= image_tag "avatar2.jpg", { id: "navigation-avatar", class: "navigation-bar-icon"} %>
+			<%#
+			<img src="{{ STATIC_URL }}imgs/lang/gb.png" id="lang-en" class="navigation-bar-icon lang-icon">
+			<img src="{{ STATIC_URL }}imgs/lang/pl.png" id="lang-pl" class="navigation-bar-icon lang-icon">
+			%>
+
+			<span id="brand" class="left-panel-size">Tasker</span>
+	 </div>
+
+		<!-- left panel with navigation buttons -->
+		<div id="navigation-panel" class="left-panel-size ui-mid-gray ui-content-min-h">
+
+			<!--TODO dashboard-->
+			<%= link_to root_path do %>
+			<div data-page-type="dashboard" class="navigation-button">
+				<div id="color-strip-dashboard" class="navigation-button-color"></div>
+				<span class="glyphicon glyphicon-star navigation-panel-icon"></span>
+				<label data-translate="dashboard">Dashboard</label>
+			</div>
+			<% end %>
+
+			<%= link_to projects_path do %>
+			<div data-page-type="projects" class="navigation-button">
+				<div id="color-strip-projects" class="navigation-button-color"></div>
+				<span class="glyphicon glyphicon-folder-open navigation-panel-icon"></span>
+				<label data-translate="my_projects">My projects</label>
+			</div>
+			<% end %>
+
+			<%= link_to tasks_path do %>
+			<div data-page-type="tasks" class="navigation-button">
+				<div id="color-strip-tasks" class="navigation-button-color"></div>
+				<span class="glyphicon glyphicon-list navigation-panel-icon"></span>
+				<label data-translate="my_tasks">My tasks</label>
+				<% if 0 < @task_count %>
+				<p class="black-overlay"><%= @task_count %></p>
+				<% end %>
+			</div>
+			<% end %>
+
+		<%# <a href="{% url 'friends_list' user.id %}"> %>
+			<div data-page-type="friends" class="navigation-button">
+				<div id="color-strip-friends" class="navigation-button-color"></div>
+				<span class="glyphicon glyphicon-user navigation-panel-icon"></span>
+				<label data-translate="friends">Friends</label>
+			</div>
+		<%# </a> %>
+	</div>
+
+	<!-- main content panel f.e. timeline, images, search etc. -->
+	<div id="main-panel" class="ui-content-min-h">
+		<header id="view-header">
+			<span class="glyphicon glyphicon-folder-open"></span>
+			<span id="view-title">
+				<%= yield :title %>
+			</span>
+
+			<div id="view-header-right">
+				<%= yield :title_right %>
+			</div>
+		</header>
+
+		<div id="center-content">
+			<%= yield %>
+		</div>
+
+	</div>
+
+	<!--page content end-->
+</div>
+
+<%= yield :page_end %>
+
+<script>
+	var a = $("[data-page-type='{{ data_page_type }}']");
+	var color = a.find(".navigation-button-color").css("background-color");
+	a.css("background-color",color);
+	$("#view-header").css("border-top-color",color);
+</script>
 
 </body>
+
 </html>

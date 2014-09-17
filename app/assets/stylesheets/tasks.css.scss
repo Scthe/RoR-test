@@ -28,7 +28,6 @@
 	padding-bottom: 5px;
 	padding:10px 10px 5px;
 	cursor: pointer;
-	color:black;
 }
 .projects-list-item:hover {
 	background-color: #ddd;
@@ -71,43 +70,35 @@
 	min-height: 300px;
 }
 
-#activity-list {
+#details-list {
 	list-style: none;
 	padding:0px 0px;
 	position: relative;
 	height: 100%;
 }
-#activity-list:before {
+#details-list:before {
 	content: "";
 	width: 2px;
 	height: 100%;
 	background: #aaa;
 	top:0;
-	left:30px;
+	left:10px;
 	position: absolute;
 }
 
-.activity-list-item {
+.details-list-item {
 	font-size: 1.1em;
+    margin-bottom: 1.1em;
+    margin-left: 20px;
 }
 
-.activity-list-item :first-child{
-	margin-left: 23px;
-}
-
-.activity-time {
-	float: right;
+.details-info {
 	color: #909090;
 }
 
-.data-section header{ /* TODO remove - use label */
+.data-section header{
 	font-weight: 600;
 	font-size: 2em;
-}
-.data-section label{
-	font-weight: 600;
-	font-size: 2em;
-	display: block;
 }
 
 .data-section {
@@ -139,29 +130,6 @@
 .tasks-col2 { width:50%; }
 .tasks-col3 { width:25%; }
 .tasks-col4 { width: 15%; }
-
-#people-list {
-	list-style: none;
-	padding:0px 0px;
-}
-
-.people-list-item {
-	float: left;
-	width: 20%;
-/*	height: 118px;*/
-	background: #fff;
-	padding: 6px;
-	border-radius: 1px;
-	border: 1px solid #eee;
-	position: relative;
-}
-
-.people-list-item img{
-	background-size: cover;
-/*	border-radius: 50%;*/
-	width: 100%;
-	height: 100%;
-}
 
 #files-list {
 	list-style: none;
@@ -278,16 +246,15 @@ project write - slider
   border-radius: 50%;
 }
 /*_______________________________________*/
-#id_description {
+#project-note {
 	width: 100%;
 	max-width: 100%;
 	min-height: 200px;
 	padding: 5px;
 }
 
-#id_name {
+#project-name {
 	min-width: 300px;
-	max-width: 300px;
 	padding: 5px;
 }
 
@@ -297,74 +264,131 @@ project write - slider
 	text-decoration: underline;
 	cursor: pointer;
 	transition: background 0.5s;
+	
 }
 .tasks-edit:hover{
 	background:#ddd;
 }
-
-.task-remove{
- 	color:black;
-}
-.task-remove:hover{
-	color:red;
-}
-
-#task-create {
+#assign-person {
 	font-size: 1em;
 	width: 170px;
 	height: 40px;
 	line-height: 40px;
 }
 
-.project-button{
+
+
+
+
+
+
+
+
+
+
+
+
+.task-button{
 	font-size: 1em;
 	width: 170px;
 	height: 40px;
 	line-height: 40px;
 	
-	background-color:hsl(31, 75%, 65%);
+	background-color:hsl(215, 57%, 68%);
 	color: white;
 	border-radius: 9px;
 	text-align: center;
 	cursor: pointer;
 	transition: background 0.5s;
 }
-.project-button:hover{
-	background-color:hsl(31, 65%, 55%);
+.task-button:hover{
+	background-color:hsl(215, 57%, 68%);
 }
 
-.remove-button {
+.person-remove {
 	position: absolute;
 	top: 2px; right: 2px;
 	font-size: 20px;
 	cursor: pointer;
 	color: #222 !important;
 }
-.remove-button:hover{
+.person-remove:hover{
 	color: red !important;
 }
-.just-added {
-	color: #3295BB !important;
-	position: absolute;
-	top: 2px; right: 2px;
-	font-size: 20px;
+
+
+
+.left-cell {
+    float: left;
+	width: 69%;
+/*	border: 1px solid red;*/
+	min-height: 300px;
 }
 
-#person-search-form{
-	/*margin-left: auto;
-	margin-right: auto;
-	width: 250px;*/
-	margin-bottom: 15px;
-}
-#person-search-submit{
+.right-cell {
+    float: left;
+	width: 29%;
+/*	border: 1px solid red;*/
+	min-height: 300px;
 }
 
-#search-loading{
-	display:none;
+.comments-section {
+    margin-top: 15px;
+    width: 100%;
 }
 
-#search-loading img{
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
+.comments-section header {
+	font-weight: 600;
+	font-size: 2em;
+}
+
+#comments-list {
+	list-style: none;
+	padding:0px 0px;
+	position: relative;
+	height: 100%;
+}
+
+.comments-list-item {
+	font-size: 1.1em;
+    margin-bottom: 1.1em;
+}
+
+.comments-time {
+	color: #909090;
+    float: right;
+}
+#task-name {
+    min-width: 300px;
+    max-width: 300px;
+	padding: 5px;
+}
+
+#task-status {
+	padding: 5px;
+}
+
+#assign-img {
+    background-size: cover;
+	width: 100%;
+	height: 100%;
+}
+
+#assign-img-div {
+    margin: auto;
+    text-align: center;
+	width: 20%;
+	background: #fff;
+	padding: 6px;
+	border-radius: 1px;
+	border: 1px solid #eee;
+	position: relative;
+}
+
+#new-comment-text {
+    margin-bottom: 15px;
+    width: 100%;
+	max-width: 100%;
+	min-height: 50px;
+	padding: 5px;
 }

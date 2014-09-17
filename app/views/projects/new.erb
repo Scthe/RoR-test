@@ -1,0 +1,61 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "project", :media => "all" %>
+    <%= javascript_include_tag 'underscore', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'bootstrap-slider', 'data-turbolinks-track' => true %>
+<% end %>
+
+<% content_for :title do %>
+   <span data-translate="new_project">Create new project</span>
+<% end %>
+
+<% content_for :page_end do %>
+    <%= javascript_include_tag 'projects', 'data-turbolinks-track' => true %>
+
+    <script language="JavaScript">
+        $(document).ready(function() {
+            $('#project-form').submit(function(event) {
+                //createProject("{% url 'project_create' %}");
+                console.log("create !")
+                event.preventDefault();
+            });
+        });
+    </script>
+<% end %>
+
+
+
+<%= form_for @project, :html => { :id => "project-form" } do |p| %>
+    <section class="data-section">
+        <%= p.label :name, { :data_translate => "name"} %>
+        <%= p.text_field :name, { :class => "form-control", :id => "id_name", :placeholder=>"Name..", :value => ""} %>
+    </section>
+
+    <section class="data-section">
+        <%= p.label :complete, "Completion status", { :data_translate => "complete_status" } %>
+        
+        <%# p.text_field :__complete, { :id => "__id_complete",
+            :data => { 'slider-id' => 'completionSlider',
+                'slider-min' => "0", 'slider-max' => "100",
+                'slider-step' => "5", 'slider-value' => "50"} } %>
+        <input id="__id_complete" name="__complete" data-slider-id='completionSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="50"/>
+        
+        <span style="font-weight: 800" id="completion-slider-val">50% complete</span>
+        
+        <%# real input field %>
+        <%= p.text_field :complete, { :id => "id_abc", :value =>"50", :style => "display:none" } %>
+    </section>
+
+    <section class="data-section">
+        <%= p.label :description, { :data_translate => "description"} %>
+        <%= p.text_area :description, { :class => "form-control", :id => "id_description", :rows => "3", :placeholder => "Add description.."} %>
+    </section>
+
+    <!--save and back buttons-->
+    <%= link_to projects_path do %>
+        <div class="project-button pull-left">
+            <span data-translate="back">Back</span>
+        </div>
+    <% end %>
+
+    <%= p.submit :submit, { :value => "Save", :class => "project-button pull-right", :onclick => "setSubmit(this)", :data_translate => "save" } %>
+<% end %>

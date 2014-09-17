@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
+
+  get 'settings' => 'application#settings'
+  get 'logout' => 'application#logout'
+
   resources :projects
+  resources :tasks
+
+  root 'application#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
