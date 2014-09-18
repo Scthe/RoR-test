@@ -85,31 +85,6 @@ function searchPerson() {
     });
 }
 
-function deleteProject( successUrl) {
-     var d = $('#project-form').serialize(); // get the form data
-    $.ajax("", {
-        data: d,
-        type: 'DELETE',
-        beforeSend: function(xhr) {
-            // xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
-            xhr.setRequestHeader("X-CSRFToken", Get_Cookie("csrftoken"));
-        },
-        success: function(response) {
-            // console.log(response);
-            var json = $.parseJSON(response);
-            if(json.success){
-                // window.location = "/task/" + json.id;
-                window.location = successUrl;
-            }else{
-                alert("Unspecified error");
-            }
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            alert("Error " + xhr.status + " " + errorThrown);
-        }
-    });
-}
-
 
 var tasksToRemove = [];
 var peopleToRemove = [];
@@ -118,12 +93,13 @@ var filesToRemove = [];
 
 function createProject(url) {
     var d = $('#project-form').serialize(); // get the form data
+
     $.ajax(url, {
         data: d,
         type: 'POST',
         success: function(json) {
             console.log('ok! > \'' + json.msg + '\'');
-            // window.location = json.id; // ?!
+            // window.location = json.full_url;
         },
         error: function(xhr, textStatus, errorThrown) {
             //console.log(textStatus + "::" + errorThrown + "->" + xhr.responseText);
@@ -141,19 +117,19 @@ function createProject(url) {
     });
 }
 
-function editProject(url, readProject_url) {
-    console.log("project edit");
+function editProject( url) {
     var d = $('#project-form').serialize(); // get the form data
     d += "&tasksToRemove=" + JSON.stringify(tasksToRemove);
     d += "&peopleToRemove=" + JSON.stringify(peopleToRemove);
     d += "&peopleToAdd=" + JSON.stringify(peopleToAdd);
     d += "&filesToRemove=" + JSON.stringify(filesToRemove);
+
     $.ajax(url, {
         data: d,
-        type: 'POST',
-        success: function(response) {
-            var json = $.parseJSON(response);
-            window.location = readProject_url;
+        type: 'PUT',
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // window.location = json.full_url;
         },
         error: function(xhr, textStatus, errorThrown) {
             try {
@@ -166,6 +142,27 @@ function editProject(url, readProject_url) {
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);
             }
+        }
+    });
+}
+
+function deleteProject( url) {
+     var d = $('#project-form').serialize(); // get the form data
+
+    $.ajax( url, {
+        data: d,
+        type: 'DELETE',
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // if(json.success){
+                // window.location = "/task/" + json.id;
+                // window.location = json.full_url;
+            // }else{
+                // alert("Unspecified error");
+            // }
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            alert("Error " + xhr.status + " " + errorThrown);
         }
     });
 }

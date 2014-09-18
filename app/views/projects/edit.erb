@@ -22,11 +22,14 @@
             $('#project-form').submit(function(event) {
                 event.preventDefault();
                 console.log(submitName );
-                //if (submitName === "Delete"){
-                //    deleteProject( "{% url 'project_list' %}");
-                //}else{
-                //    editProject("{% url 'project_edit' project.id %}","{% url 'project' project.id %}");
-                //}
+
+                if (submitName === "Delete"){
+                    url = "<%= url_for :action => 'destroy' %>";
+                    deleteProject( url + '.json');
+                }else{
+                    url = "<%= url_for :action => 'update' %>";
+                    editProject( url + '.json');
+                }
             });
         });
     </script>

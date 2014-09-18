@@ -75,6 +75,19 @@ end
 		end
 	end
 
+	def update
+		respond_to do |format|
+			format.json { render json: { :msg => 'update !' }.to_json}
+		end
+	end
+
+	def destroy
+		# TODO this should not be json..
+		respond_to do |format|
+			format.json { render json: { :msg => 'destroy !' }.to_json}
+		end
+	end
+
 	#
 	#stubs
 
