@@ -74,7 +74,7 @@
         <header class="clearfix" data-translate="my_tasks">Tasks</header>
         <table id="tasks-table">
             <tr>
-                <th class="tasks-cell tasks-col1" data-translate="active">">Active</th>
+                <th class="tasks-cell tasks-col1" data-translate="active">Active</th>
                 <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
                 <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
                 <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
@@ -104,7 +104,6 @@
         </table>
     </section>
 
-    <%#
     <section class="data-section">
         <div id="view-header-right" class="clearfix">
             <div id="person-add" class="project-button">
@@ -115,19 +114,20 @@
         <header class="clearfix" data-translate="project_people">People</header>
         <!--TODO for each person add connection type: { admin/progr./etc}-->
         <ul id="people-list" class="clearfix">
-            {% for person in project.people %}
-            <li class="people-list-item" data-person-id="{{ person.id }}">
+            <% @project.users.each do |person| %>
+            <li class="people-list-item" data-person-id="<%= person.id %>">
                 <p class="person-remove remove-button">
                     <span class="glyphicon glyphicon-remove"></span>
                 <p>
-                <img src="{{ STATIC_URL }}{{ person.avatarPath}}">
-                {{ person.first_name|default:person.username }}&nbsp;{{ person.last_name }}
+                <%= image_tag "avatar2.jpg" %>
+                <%= person.preety_print %>
             </li>
-            {% endfor %}
+            <% end %>
 
         </ul>
     </section>
 
+    <%#
     <section class="data-section">
         <header data-translate="files">Files</header>
         <ul id="files-list" class="clearfix">
