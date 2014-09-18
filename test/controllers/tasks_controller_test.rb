@@ -15,7 +15,7 @@ class TasksControllerTest < ActionController::TestCase
 		assert_template :show
 		assert_template layout: "layouts/application"
 	end
-=begin
+
 	test "should get edit" do
 		get :edit, id: 1
 		assert_response :success
@@ -29,5 +29,4 @@ class TasksControllerTest < ActionController::TestCase
 		assert_template :new
 		assert_template layout: "layouts/application"
 	end
-=end
 end

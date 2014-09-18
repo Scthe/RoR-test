@@ -43,6 +43,7 @@ module ApplicationHelper
 			t.description = 'MyText'
 			t.created_by = user
 			# t.files = []
+			t.created_at = DateTime.now
 
 			t.comments = (0...4).to_a.map { |e| ApplicationHelper::stub_task_comment( t, user)  }
 		end
