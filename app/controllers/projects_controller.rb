@@ -64,6 +64,8 @@ class ProjectsController < ApplicationController
 
 			t = ProjectsController.stub_task( user, p)
 			p.tasks = [t,t,t,t]
+
+			p.project_person = (0...4).to_a.map { |e| ProjectsController.stub_project_person( user, p)  }
 		end
 	end
 
@@ -83,4 +85,14 @@ class ProjectsController < ApplicationController
 		end
 	end
 
+	def self.stub_project_person( user, p)
+		p.users = [] if p.users.nil?
+		p.users << user
+
+		ProjectPerson.new.tap do |pp|
+			pp.user = user
+			pp.project = p
+			pp.role = 1
+		end
+	end
 end
