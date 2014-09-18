@@ -1,6 +1,28 @@
 class ProjectsController < ApplicationController
 
-	# In case of 'not [:id] provided just add field :id to the object'
+=begin
+
+In case of 'not [:id] provided just add field :id to the object'
+
+
+def create
+  @user = User.new(params[:user])
+  respond_to do |format|
+    if @user.save
+      format.html { redirect_to @user, notice: 'User was successfully created.' }
+      format.js   {}
+      format.json { render json: @user, status: :created, location: @user }
+    else
+      format.html { render action: "new" }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
+    end
+  end
+end
+
+
+=end
+
+	skip_before_filter :verify_authenticity_token, :only => :create
 
 	def index
 		@user = ApplicationController.stub_user
@@ -47,7 +69,10 @@ class ProjectsController < ApplicationController
 	#
 	#forms
 	def create
-
+		# p params[:project]
+		respond_to do |format|
+			format.json { render json: { :msg => 'seems ok' }.to_json}
+		end
 	end
 
 	#

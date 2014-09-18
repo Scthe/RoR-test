@@ -121,9 +121,9 @@ function createProject(url) {
     $.ajax(url, {
         data: d,
         type: 'POST',
-        success: function(response) {
-            var json = $.parseJSON(response);
-            window.location = json.id; // ?!
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // window.location = json.id; // ?!
         },
         error: function(xhr, textStatus, errorThrown) {
             //console.log(textStatus + "::" + errorThrown + "->" + xhr.responseText);
@@ -144,10 +144,10 @@ function createProject(url) {
 function editProject(url, readProject_url) {
     console.log("project edit");
     var d = $('#project-form').serialize(); // get the form data
-    d += "&tasksToRemove=" + JSON.stringify(tasksToRemove)
-    d += "&peopleToRemove=" + JSON.stringify(peopleToRemove)
+    d += "&tasksToRemove=" + JSON.stringify(tasksToRemove);
+    d += "&peopleToRemove=" + JSON.stringify(peopleToRemove);
     d += "&peopleToAdd=" + JSON.stringify(peopleToAdd);
-    d += "&filesToRemove=" + JSON.stringify(filesToRemove)
+    d += "&filesToRemove=" + JSON.stringify(filesToRemove);
     $.ajax(url, {
         data: d,
         type: 'POST',
@@ -233,7 +233,7 @@ function assignmentListItemClick() {
     s += name + '</li>';
     // $("#people-list").html($("#people-list").html() + s);
     $("#people-list").append(s);
-};
+}
 
 /*
  * slider
