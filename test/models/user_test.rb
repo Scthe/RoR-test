@@ -61,6 +61,24 @@ class UserTest < ActiveSupport::TestCase
 
   # TODO validate email & password
 
+ test "should preety print name correctly" do
+    u = create_ok_user
+    assert_equal "John Smith", u.preety_print
+
+    u = create_ok_user
+    u.firstname = nil
+    assert_equal "User1 Smith", u.preety_print
+
+    u = create_ok_user
+    u.lastname = nil
+    assert_equal "John", u.preety_print
+
+    u = create_ok_user
+    u.firstname = nil
+    u.lastname = nil
+    assert_equal "User1", u.preety_print
+  end
+
   private
   def create_ok_user
     # TODO use fixtures

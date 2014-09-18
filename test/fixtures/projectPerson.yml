@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+person_in_project_a:
+  project: project_a
+  user: user_a
+  role: 0
+

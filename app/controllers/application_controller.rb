@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
 	def self.stub_user
 		# TODO move getting user to separate module
 		User.new.tap do |u|
+			u.id = 1
 			u.username = 'Abra'
 			u.firstname = 'Abraham'
 			u.lastname = 'Lincoln'

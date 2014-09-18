@@ -1,6 +1,28 @@
 class ProjectsController < ApplicationController
 
-	# In case of 'not [:id] provided just add field :id to the object'
+=begin
+
+In case of 'not [:id] provided just add field :id to the object'
+
+
+def create
+  @user = User.new(params[:user])
+  respond_to do |format|
+    if @user.save
+      format.html { redirect_to @user, notice: 'User was successfully created.' }
+      format.js   {}
+      format.json { render json: @user, status: :created, location: @user }
+    else
+      format.html { render action: "new" }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
+    end
+  end
+end
+
+
+=end
+
+	skip_before_filter :verify_authenticity_token, :only => :create
 
 	def index
 		@user = ApplicationController.stub_user
@@ -14,7 +36,24 @@ class ProjectsController < ApplicationController
 	end
 
 	def show
+		@user = ApplicationController.stub_user
+		@task_count = 5
 
+		@project = ProjectsController.stub_project @user
+		@can_edit = true
+
+		render layout: true
+	end
+
+	def edit
+		@user = ApplicationController.stub_user
+		@task_count = 5
+		@tasks_list
+
+		@project = ProjectsController.stub_project @user
+		@can_edit = true
+
+		render layout: true
 	end
 
 	def new
@@ -30,7 +69,23 @@ class ProjectsController < ApplicationController
 	#
 	#forms
 	def create
+		# p params[:project]
+		respond_to do |format|
+			format.json { render json: { :msg => 'seems ok' }.to_json}
+		end
+	end
 
+	def update
+		respond_to do |format|
+			format.json { render json: { :msg => 'update !' }.to_json}
+		end
+	end
+
+	def destroy
+		# TODO this should not be json..
+		respond_to do |format|
+			format.json { render json: { :msg => 'destroy !' }.to_json}
+		end
 	end
 
 	#
@@ -41,14 +96,19 @@ class ProjectsController < ApplicationController
 		Project.new.tap do |p|
 			p.id = 1
 			p.name = 'ProjectA'
-			p.complete = 50
+			p.complete = 33
 			p.description = 'Null desc !'
 			p.created_by_id = user
+
+			t = ProjectsController.stub_task( user, p)
+			p.tasks = [t,t,t,t]
+
+			p.project_person = (0...4).to_a.map { |e| ProjectsController.stub_project_person( user, p)  }
 		end
 	end
 
-	def self.stub_task( user)
-		p = ProjectsController.stub_project user
+	def self.stub_task( user, p=nil)
+		p ||= ProjectsController.stub_project user
 
 		Task.new.tap do |t|
 			t.id = 1
@@ -63,4 +123,14 @@ class ProjectsController < ApplicationController
 		end
 	end
 
+	def self.stub_project_person( user, p)
+		p.users = [] if p.users.nil?
+		p.users << user
+
+		ProjectPerson.new.tap do |pp|
+			pp.user = user
+			pp.project = p
+			pp.role = 1
+		end
+	end
 end

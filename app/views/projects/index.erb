@@ -3,23 +3,23 @@
 <% end %>
 
 <% content_for :title do %>
-	<!--My projects-->
    <span data-translate="my_projects">My projects</span>
 <% end %>
 
 <% content_for :title_right do %>
-    <a href="{% url 'project_create' %}">
     <%= link_to new_project_path do %>
-	<div id="project-create">
-        <span class="glyphicon glyphicon-plus"></span>
-        <span data-translate="project_add">add new project</span>
-    </div>
+    	<div id="project-create">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span data-translate="project_add">add new project</span>
+        </div>
     <% end %>
 <% end %>
 
+
 <ul id="projects-list" class="main-panel-content">
+    
     <%# TODO separate template %>
-     <% @projects.each do |project| %>
+    <% @projects.each do |project| %>
         <%= link_to project_path(project) do %>
         <li class="projects-list-item">
             <h2><%= project.name %></h2>
@@ -29,4 +29,5 @@
         </li>
         <% end %>
     <% end %>
+
 </ul>

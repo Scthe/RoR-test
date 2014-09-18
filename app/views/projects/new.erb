@@ -14,8 +14,8 @@
     <script language="JavaScript">
         $(document).ready(function() {
             $('#project-form').submit(function(event) {
-                //createProject("{% url 'project_create' %}");
-                console.log("create !")
+                url = "<%= url_for :action => 'create' %>";
+                createProject( url+".json");
                 event.preventDefault();
             });
         });
