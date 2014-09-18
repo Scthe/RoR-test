@@ -6,13 +6,13 @@ class ApplicationController < ActionController::Base
 	def index
 		# TODO use jade
 		# TODO add languages using some gem
-		@user = ApplicationController.stub_user
+		@user = ApplicationHelper::stub_user
 		@task_count = 5
 		render layout: true
 	end
 
 	def settings
-		@user = ApplicationController.stub_user
+		@user = ApplicationHelper::stub_user
 		@task_count = 5
 		render layout: true
 	end
@@ -21,17 +21,29 @@ class ApplicationController < ActionController::Base
 		redirect_to "/"
 	end
 
-	def self.stub_user
-		# TODO move getting user to separate module
-		User.new.tap do |u|
-			u.id = 1
-			u.username = 'Abra'
-			u.firstname = 'Abraham'
-			u.lastname = 'Lincoln'
-			u.email = 'al@gov.org'
-			u.password = 'MyString'
-			u.is_active = true
-			# u.birthdate: 2014-09-03
-		end
-	end
+
+=begin
+
+TODO http://stackoverflow.com/questions/3992659/in-rails-what-exactly-do-helper-and-helper-method-do
+
+In case of 'not [:id] provided just add field :id to the object'
+
+
+def create
+  @user = User.new(params[:user])
+  respond_to do |format|
+    if @user.save
+      format.html { redirect_to @user, notice: 'User was successfully created.' }
+      format.js   {}
+      format.json { render json: @user, status: :created, location: @user }
+    else
+      format.html { render action: "new" }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
+    end
+  end
+end
+
+
+=end
+
 end
