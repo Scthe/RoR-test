@@ -16,10 +16,18 @@ class TasksController < ApplicationController
 
 		@task = ApplicationHelper::stub_task( @user)
 		@can_edit = true
+		@canAddComment = true
 	end
 
 	def edit
-		
+
+	end
+
+	# forms
+	def add_comment
+		respond_to do |format|
+			format.json { render json: { :msg => 'comment add !' }.to_json}
+		end
 	end
 
 end

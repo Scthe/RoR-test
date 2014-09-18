@@ -64,6 +64,7 @@ module ApplicationHelper
 			pp.user = user
 			pp.task = task
 			pp.text = "Comment !"
+			pp.created_at = DateTime.now
 		end
 	end
 

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   root 'application#index'
 
+  post 'tasks/:id/add_comment' => 'tasks#add_comment', as: :add_comment
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
