@@ -1,3 +1,5 @@
+require "projectPerson"
+
 class ProjectsController < ApplicationController
 
 =begin
