@@ -43,6 +43,8 @@ module ApplicationHelper
 			t.description = 'MyText'
 			t.created_by = user
 			# t.files = []
+
+			t.comments = (0...4).to_a.map { |e| ApplicationHelper::stub_task_comment( t, user)  }
 		end
 	end
 
@@ -56,4 +58,13 @@ module ApplicationHelper
 			pp.role = 1
 		end
 	end
+
+	def self.stub_task_comment( task, user)
+		TaskComment.new.tap do |pp|
+			pp.user = user
+			pp.task = task
+			pp.text = "Comment !"
+		end
+	end
+
 end

@@ -18,6 +18,7 @@ class Task < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :person_responsible, :class_name => "User"
 	belongs_to :created_by, :class_name => "User"
+	has_many :comments, :class_name => "TaskComment"
 	# http://stackoverflow.com/questions/14867981/how-do-i-add-migration-with-multiple-references-to-the-same-model-in-one-table
 
 	validates :title, presence: true, length: { minimum: 3, maximum: 50}

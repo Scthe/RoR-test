@@ -5,7 +5,6 @@ class TasksController < ApplicationController
 	def index
 		@user = ApplicationHelper::stub_user
 		@task_count = 5
-		@tasks_list
 
 		t = ApplicationHelper::stub_task( @user)
 		@tasks = [t,t,t,t]
@@ -14,7 +13,6 @@ class TasksController < ApplicationController
 	def show
 		@user = ApplicationHelper::stub_user
 		@task_count = 5
-		@tasks_list
 
 		@task = ApplicationHelper::stub_task( @user)
 		@can_edit = true
