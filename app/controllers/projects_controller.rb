@@ -3,45 +3,23 @@ class ProjectsController < ApplicationController
 	skip_before_filter :verify_authenticity_token, :only => :create
 
 	def index
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-		@tasks_list
-
-		p = ApplicationHelper::stub_project @user
-		@projects = [p,p,p]
-
-		render layout: true
+		pip = ProjectPerson.where("user_id = ?", @user.id)
+		@projects = pip.map { |e| e.project }
 	end
 
 	def show
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@project = ApplicationHelper::stub_project @user
+		@project = Project.find(params[:id])
 		@can_edit = true
-
-		render layout: true
+		# TODO handle fail
 	end
 
 	def edit
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-		@tasks_list
-
-		@project = ApplicationHelper::stub_project @user
+		@project = Project.find(params[:id])
 		@can_edit = true
-
-		render layout: true
 	end
 
 	def new
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-		@tasks_list
-
 		@project = Project.new
-
-		render layout: true
 	end
 
 	#
@@ -65,5 +43,7 @@ class ProjectsController < ApplicationController
 			format.json { render json: { :msg => 'destroy !' }.to_json}
 		end
 	end
+
+
 
 end

@@ -3,39 +3,26 @@ class TasksController < ApplicationController
 	# TODO add comments as inner resource
 
 	def index
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		t = ApplicationHelper::stub_task( @user)
-		@tasks = [t,t,t,t]
 	end
 
 	def show
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@task = ApplicationHelper::stub_task( @user)
+		# TODO does not contain link back to project ?
+		@task = Task.find(params[:id])
 		@can_edit = true
 		@canAddComment = true
 	end
 
 	def edit
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@task = ApplicationHelper::stub_task( @user)
-		@people_to_assign = (0...4).to_a.map { |e| ApplicationHelper::stub_user }
+		@task = Task.find(params[:id])
+		pip = ProjectPerson.where("project_id = ?", @task.project.id)
+		@people_to_assign = pip.map { |e| e.user }
 	end
 
 	def new
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@project = ApplicationHelper::stub_project @user
+		@project = Project.find(0) # TODO should use params[:project_id] !
 		@task = Task.new
-		@people_to_assign = (0...4).to_a.map { |e| ApplicationHelper::stub_user }
-
-		render layout: true
+		pip = ProjectPerson.where("project_id = ?", @project.id)
+		@people_to_assign = pip.map { |e| e.user }
 	end
 
 	#

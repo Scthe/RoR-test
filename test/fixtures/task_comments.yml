@@ -3,7 +3,9 @@
 task_comment_a:
   text: comment 1
   task_id: task_a
+  user_id: user_a
 
 task_comment_b:
   text: MyString2
-  task_id: task_b
+  task_id: task_a
+  user_id: user_b

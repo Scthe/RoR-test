@@ -1,7 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 person_in_project_a:
-  project: project_a
-  user: user_a
+  project_id: project_a
+  user_id: user_a
   role: 0
 
+person_in_project_b:
+  project_id: project_a
+  user_id: user_b
+  role: 0
+
+person_in_project_c:
+  project_id: project_a
+  user_id: user_b
+  role: 0
+
+person_in_project_b:
+  project_id: project_a
+  user_id: user_a
+  role: 0

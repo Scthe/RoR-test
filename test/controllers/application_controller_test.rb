@@ -11,11 +11,12 @@ class ApplicationControllerTest < ActionController::TestCase
   end
 
   test "should correctly render task count" do
-  	get :index
+    get(:index, nil, { :user => 0})
+  	# get :index
     assert_response :success
     assert_not_nil assigns(:task_count)
 
-    assert_select '[data-page-type="tasks"] .black-overlay', {:count => 1, :text => "5"},
+    assert_select '[data-page-type="tasks"] .black-overlay', {:count => 1, :text => "1"},
       "Wrong task count rendered"
   end
 

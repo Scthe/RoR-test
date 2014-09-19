@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 user_a:
+  id: 0
   username: Georg
   firstname: George
   lastname: Washington
@@ -8,8 +9,10 @@ user_a:
   password: MyString
   is_active: true
   birthdate: 2014-09-03
+  gender: 0
 
 user_b:
+  id: 1
   username: Abra
   firstname: Abraham
   lastname: Lincoln
@@ -17,3 +20,4 @@ user_b:
   password: MyString
   is_active: true
   birthdate: 2014-09-03
+  gender: 0

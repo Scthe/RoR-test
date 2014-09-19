@@ -1,12 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 project_a:
+  id: 0
   name: ProjectA
   complete: 50
   description: Null desc !
   created_by_id: user_a
 
 project_b:
+  id: 1
   name: ProjectB
   complete: 75
   description: Lorem !
