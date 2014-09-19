@@ -10,12 +10,13 @@ function createTask(url) {
     var d = $('#task-form').serialize(); // get the form data
     var personResponsibleId = $("#assign-img-div").data("person-id");
     d += "&personResponsibleId=" + JSON.stringify(personResponsibleId);
+
     $.ajax(url, {
         data: d,
         type: 'POST',
-        success: function(response) {
-            var json = $.parseJSON(response);
-            window.location = "/task/" + json.id; // TODO hardcoded url
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // window.location = "/task/" + json.id; // TODO hardcoded url
         },
         error: function(xhr, textStatus, errorThrown) {
             try {
@@ -33,18 +34,18 @@ function createTask(url) {
     });
 }
 
-function editTask(url, readTask_url) {
-    console.log("task edit");
+function editTask(url) {
     var personResponsibleId = $("#assign-img-div").data("person-id");
     var d = $('#task-form').serialize(); // get the form data
     d += "&personResponsibleId=" + JSON.stringify(personResponsibleId);
     d += "&filesToRemove=" + JSON.stringify(filesToRemove);
+
     $.ajax(url, {
         data: d,
-        type: 'POST',
-        success: function(response) {
-            var json = $.parseJSON(response);
-            window.location = readTask_url;
+        type: 'PUT',
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // window.location = readTask_url;
         },
         error: function(xhr, textStatus, errorThrown) {
             try {
@@ -61,24 +62,20 @@ function editTask(url, readTask_url) {
     });
 }
 
-function deleteTask( successUrl) {
-     var d = $('#task-form').serialize(); // get the form data
-    $.ajax("", {
+function deleteTask( url) {
+    var d = $('#task-form').serialize(); // get the form data
+
+    $.ajax(url, {
         data: d,
         type: 'DELETE',
-        beforeSend: function(xhr) {
-            // xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
-            xhr.setRequestHeader("X-CSRFToken", Get_Cookie("csrftoken"));
-        },
-        success: function(response) {
-            // console.log(response);
-            var json = $.parseJSON(response);
-            if(json.success){
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // if(json.success){
                 // window.location = "/task/" + json.id;
-                window.location = successUrl;
-            }else{
-                alert("Unspecified error");
-            }
+                // window.location = successUrl;
+            // }else{
+                // alert("Unspecified error");
+            // }
         },
         error: function(xhr, textStatus, errorThrown) {
             alert("Error " + xhr.status + " " + errorThrown);
@@ -134,14 +131,14 @@ function addComment(url) {
     $.ajax(url, {
         data: $('#comment-form').serialize(), // get the form data
         type: 'POST',
-        success: function(response) {
-            var json = $.parseJSON(response);
-            var date = json.data.created[2] + "-" + json.data.created[1] + "-" + json.data.created[0];
-            s = '<li class="comments-list-item">';
-            s += '<b>' + json.data.createdBy.name + ' ' + json.data.createdBy.lastName + '</b>';
-            s += '<span class="comments-time">' + date + '</span>';
-            s += '<p>' + json.data.text + '</p></li>';
-            $("#comments-list").append(s);
+        success: function(json) {
+            console.log('ok! > \'' + json.msg + '\'');
+            // var date = json.data.created[2] + "-" + json.data.created[1] + "-" + json.data.created[0];
+            // s = '<li class="comments-list-item">';
+            // s += '<b>' + json.data.createdBy.name + ' ' + json.data.createdBy.lastName + '</b>';
+            // s += '<span class="comments-time">' + date + '</span>';
+            // s += '<p>' + json.data.text + '</p></li>';
+            // $("#comments-list").append(s);
         },
         error: function(xhr, textStatus, errorThrown) {
             console.log(textStatus + "::" + errorThrown);

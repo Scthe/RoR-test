@@ -25,14 +25,13 @@
     <script language="JavaScript">
         $(document).ready(function() {
             $('#comment-form').submit(function(event) {
-                //addComment("__ url 'task_comment' task.id __");
-                console.log('was blocked in show.erb')
+                url = "<%= url_for :action => 'add_comment' %>";
+                addComment( url + '.json');
                 event.preventDefault();
             });
         });
     </script>
 <% end %>
-
 
 
 <section class="clearfix">
@@ -103,30 +102,29 @@
         <% end % >
     </ul>
 </section>
+%>
 
 
 <section class="comments-section">
     <header data-translate="comments">Comments</header>
     <ul id="comments-list">
 
-        <% for taskComment in task.comments % >
+        <% @task.comments.each do |taskComment| %>
             <li class="comments-list-item">
                 <b>
-                    <%= taskComment.createdBy.first_name|default:taskComment.createdBy.username % >&nbsp;<%= taskComment.createdBy.last_name % >
+                    <%= taskComment.user.preety_print %>
                 </b>
-                <span class="comments-time"><%= taskComment.created|date:"d-m-Y" % ></span>
-                <p><%= taskComment.text % ></p>
+                <span class="comments-time"><%= taskComment.created_at %></span>
+                <p><%= taskComment.text %></p>
             </li>
-        <% endfor % >
+        <% end %>
     </ul>
 </section>
 
-<!--TODO : canAddComment-->
-<% if canAddComment % >
-<form id="comment-form" action="" method="post"><% csrf_token % >
-    <textarea class="form-control" id="task-new-comment" rows="3" name="new-comment-text" placeholder="Comment text.." data-translate="task_comment_default"></textarea>
-    <input type="submit" value="Add comment" class="task-button pull-right"/>
-</form>
-<% end % >
+<% if @canAddComment %>
+    <%= form_for (TaskComment.new), :url => add_comment_path, :html => { :id => "comment-form" } do |p| %>
+        <%= p.text_area :text, { :class => "form-control", :id => "task-new-comment", :rows => "3", :placeholder => "Comment text..", :data_translate => "task_comment_default" } %>
 
-%>
+        <%= p.submit :submit, { :value => "Add comment", :class => "task-button pull-right", :data_translate => "add_comment" } %>
+    <% end %>
+<% end %>

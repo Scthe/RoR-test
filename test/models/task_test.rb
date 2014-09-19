@@ -19,7 +19,10 @@ class TaskTest < ActiveSupport::TestCase
 		@task.title = "a"
 		assert_not @task.valid?
 
-		@task.title = "aaaaaBBBBBaaaaaBBBBBaaaaaBBBBBaaaaaBBBBBaaaaaBBBBBa"
+		@task.title = "a" * 50
+		assert @task.valid?
+
+		@task.title = "a" * 51
 		assert_not @task.valid?
 	end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917214240) do
+ActiveRecord::Schema.define(version: 20140918191709) do
 
   create_table "projectPerson", force: true do |t|
     t.integer "role"
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(version: 20140917214240) do
     t.text     "description"
     t.integer  "created_by_id"
   end
+
+  create_table "task_comments", force: true do |t|
+    t.string   "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "task_id"
+    t.integer  "user_id"
+  end
+
+  add_index "task_comments", ["task_id"], name: "index_task_comments_on_task_id"
+  add_index "task_comments", ["user_id"], name: "index_task_comments_on_user_id"
 
   create_table "tasks", force: true do |t|
     t.string   "title"

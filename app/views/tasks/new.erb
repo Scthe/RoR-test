@@ -1,0 +1,114 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag 'tasks', media: 'all', 'data-turbolinks-track' => true %>
+<% end %>
+
+<% content_for :title do %>
+<span data-translate="new_task">Create new task</span>
+<% end %>
+
+<% content_for :page_end do %>
+    <%= javascript_include_tag 'tasks', 'data-turbolinks-track' => true %>
+
+    <script language="JavaScript">
+        $(document).ready(function() {
+            $('#task-form').submit(function(event) {
+                // createTask("< % url 'task_create' project_id %>");
+                url = "<%= url_for :action => 'create' %>";
+                createTask( url+".json");
+                event.preventDefault();
+            });
+        });
+    </script>
+<% end %>
+
+
+<%= form_for @task, :html => { :id => "task-form" } do |t| %>
+
+    <%= t.text_field :project_id, { :value => @project.id, :style => "display:none" } %>
+
+    <section class="clearfix">
+        <div class="left-cell">
+            <section class="data-section">
+                <header data-translate="task_name">Name</header>
+                <%= t.text_field :title, { :class => "form-control", :id => "task-name", :placeholder=>"Name.." } %>
+            </section>
+
+            <section class="data-section">
+                <header data-translate="task_status">Status</header>
+                    <select id="task-type" name="type">
+                        <% Task::TASK_TYPES_L.each do |a| %>
+                            <option value="<%= a[:value] %>"><%= a[:display_name] %></option>
+                        <% end %>
+                    </select>
+            </section>
+            <br />
+
+            <section class="data-section">
+                <header data-translate="deadline">Deadline</header>
+                <input class="form-control" id="task-deadline" type="date" name="deadline" value="<%= @task.deadline %>" style="max-width: 300px;">
+            </section>
+
+            <section class="data-section">
+                <header data-translate="description">Description</header>
+
+                <%= t.text_area :description, { :class => "form-control", :id => "project-note", :rows => "3", :placeholder => "Add description.."} %>
+            </section>
+        </div>
+
+    </section>
+
+    <!---->
+    <!--Person-->
+    <!---->
+    <section class="data-section">
+        <div id="view-header-right" class="clearfix">
+            <div id="assign-person" class="task-button">
+                <span data-translate="task_assignment_change">Change assignment</span>
+            </div>
+        </div>
+        <header class="clearfix" data-translate="task_assign">Assign</header>
+        <div id="assign-img-div" style="display:none" data-person-id="-1">
+             <p class="person-remove">
+                    <span class="glyphicon glyphicon-remove"></span>
+                <p>
+                <%= image_tag "avatar2.jpg", { id: "assign-img" } %>
+            <p id="assign-name">
+                <% unless @task.person_responsible.nil? %>
+                <%= @task.person_responsible.preety_print %>
+                <% end %>
+            </p>
+        </div>
+    </section>
+
+<!--save and back buttons-->
+    <%= link_to project_path( @project) do %>
+        <div class="task-button pull-left">
+           <span data-translate="back">Back</span>
+        </div>
+    <% end %>
+
+    <%= t.submit :submit, { :value => "Save", :class => "task-button pull-right", :onclick => "setSubmit(this)", :data_translate => "save" } %>
+
+<% end %>
+
+
+<!---->
+<!--dialog-->
+<!---->
+<div id="assignment-dialog">
+    <span id="assignment-dialog-close" class="glyphicon glyphicon-remove"></span>
+
+    <header id="assignment-dialog-title">
+        <span data-translate="assign_to_the_task">Assign to the task</span>
+    </header>
+     <ul id="assignment-list" class="clearfix">
+        <% @people_to_assign.each do |person| %>
+        <li class="assignment-list-item" data-person-id="{{ person.id }}">
+            <%= image_tag "avatar2.jpg" %>
+            <span class="assignement-name">
+                <%= person.preety_print %>
+            </span>
+        </li>
+        <% end %>
+     </ul>
+</div>
