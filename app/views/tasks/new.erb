@@ -13,6 +13,8 @@
         $(document).ready(function() {
             $('#task-form').submit(function(event) {
                 // createTask("< % url 'task_create' project_id %>");
+                url = "<%= url_for :action => 'create' %>";
+                createTask( url+".json");
                 event.preventDefault();
             });
         });
@@ -21,6 +23,8 @@
 
 
 <%= form_for @task, :html => { :id => "task-form" } do |t| %>
+
+    <%= t.text_field :project_id, { :value => @project.id, :style => "display:none" } %>
 
     <section class="clearfix">
         <div class="left-cell">

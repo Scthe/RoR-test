@@ -22,10 +22,13 @@
            
             $('#task-form').submit(function(event) {
                 event.preventDefault();
+                
                 if (submitName === "Delete"){
-                    // deleteTask( "{% url 'user_tasks_list' task.id %}");
+                    url = "<%= url_for :action => 'destroy' %>";
+                    deleteTask( url + '.json');
                 }else{
-                    // editTask("{% url 'task_edit' task.id %}","{% url 'task' task.id %}");
+                    url = "<%= url_for :action => 'update' %>";
+                    editTask( url + '.json');
                 }
             });
 
