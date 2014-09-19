@@ -24,6 +24,7 @@ class TasksController < ApplicationController
 		@task_count = 5
 
 		@task = ApplicationHelper::stub_task( @user)
+		@people_to_assign = (0...4).to_a.map { |e| ApplicationHelper::stub_user }
 	end
 
 	def new
@@ -32,6 +33,7 @@ class TasksController < ApplicationController
 
 		@project = ApplicationHelper::stub_project @user
 		@task = Task.new
+		@people_to_assign = (0...4).to_a.map { |e| ApplicationHelper::stub_user }
 
 		render layout: true
 	end

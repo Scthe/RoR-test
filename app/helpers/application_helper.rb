@@ -1,3 +1,5 @@
+require "projectPerson"
+
 module ApplicationHelper
 
 	def self.stub_user

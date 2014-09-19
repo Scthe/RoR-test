@@ -1,5 +1,3 @@
-require "projectPerson"
-
 class ProjectsController < ApplicationController
 
 	skip_before_filter :verify_authenticity_token, :only => :create

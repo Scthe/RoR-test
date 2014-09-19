@@ -6,16 +6,6 @@
 <span data-translate="new_task">Create new task</span>
 <% end %>
 
-<% content_for :title_right do %>
-    <%#
-    {% for tT_short, tT_name in taskTypes %}
-        {% if task.type == tT_short %}
-            <h2>{{ tT_name }}</h2>
-        {% endif %}
-    {% endfor %}
-    %>
-<% end %>
-
 <% content_for :page_end do %>
     <%= javascript_include_tag 'tasks', 'data-turbolinks-track' => true %>
 
@@ -42,14 +32,8 @@
             <section class="data-section">
                 <header data-translate="task_status">Status</header>
                     <select id="task-type" name="type">
-                        <%#
-                        <% for tT_short, tT_name in taskTypes % >
-
-                            <% if task.type.0 == tT_short % >
-                            <option value="<%= tT_short % >" selected="selected"><%= tT_name % ></option>
-                            <% else % >
-                            <option value="<%= tT_short % >"><%= tT_name % ></option>
-                            <% end % >
+                        <% Task::TASK_TYPES_L.each do |a| %>
+                            <option value="<%= a[:value] %>"><%= a[:display_name] %></option>
                         <% end %>
                     </select>
             </section>
@@ -79,7 +63,7 @@
             </div>
         </div>
         <header class="clearfix" data-translate="task_assign">Assign</header>
-        <div id="assign-img-div" style="display:none" data-person-id="<%# task.personResponsible.id|default:"-1" %>">
+        <div id="assign-img-div" style="display:none" data-person-id="-1">
              <p class="person-remove">
                     <span class="glyphicon glyphicon-remove"></span>
                 <p>
@@ -91,45 +75,6 @@
             </p>
         </div>
     </section>
-
-<%#
-{% if not new_task %}
-
-    <section class="data-section">
-        <header data-translate="files">Files</header>
-        <ul id="files-list" class="clearfix">
-
-            {% for file in task.files %}
-            <li class="files-list-item" data-type="{{file.type|lower}}" data-file-id="{{ file.id }}">
-
-                <!--icon-->
-                {% if file.type == "Document" %}
-                    <span class="glyphicon glyphicon-file"></span>
-                {% else %}
-                    {% if file.type == "Image" %}
-                        <span class="glyphicon glyphicon-camera"></span>
-                    {% else %}
-                        {% if file.type == "Sound" %}
-                            <span class="glyphicon glyphicon-music"></span>
-                        {% else %}
-                            <span class="glyphicon glyphicon-paperclip"></span>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-
-                 <!--file name-->
-                <b>_{{ file.name }}_</b>
-                <p class="file-remove remove-button">
-                    <span class="glyphicon glyphicon-remove"></span>
-                <p>
-            </li>
-            {% endfor %}
-
-        </ul>
-    </section>
-
-{% endif %}
-%>
 
 <!--save and back buttons-->
     <%= link_to project_path( @project) do %>
@@ -146,7 +91,6 @@
 <!---->
 <!--dialog-->
 <!---->
-<%# 
 <div id="assignment-dialog">
     <span id="assignment-dialog-close" class="glyphicon glyphicon-remove"></span>
 
@@ -154,15 +98,13 @@
         <span data-translate="assign_to_the_task">Assign to the task</span>
     </header>
      <ul id="assignment-list" class="clearfix">
-        {% for person in people_to_assign %}
+        <% @people_to_assign.each do |person| %>
         <li class="assignment-list-item" data-person-id="{{ person.id }}">
-            <img src="{{ STATIC_URL }}{{ person.avatarPath }}">
+            <%= image_tag "avatar2.jpg" %>
             <span class="assignement-name">
-                {{ person.user.first_name|default:person.user.username }}&nbsp;{{ person.user.last_name }}
+                <%= person.preety_print %>
             </span>
         </li>
-        {% endfor %}
+        <% end %>
      </ul>
 </div>
-{% endblock %}
-%>
