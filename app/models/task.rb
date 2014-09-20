@@ -36,4 +36,15 @@ class Task < ActiveRecord::Base
 	def task_type_obj
 		TASK_TYPES_L.select { |e| e[:value] == self.task_type }.first
 	end
+
+	def self.find_( task_id, user)
+		task = find(task_id)
+		raise ActiveRecord::RecordNotFound unless task.send( :can_be_viewed_by, user) # TODO send ?!
+		task
+	end
+
+	private
+	def can_be_viewed_by( user)
+		Project.can_be_viewed_by( self.project.id, user)
+	end
 end

@@ -1,28 +1,35 @@
 class TasksController < ApplicationController
 
 	# TODO add comments as inner resource
+	set_page_type :tasks
 
 	def index
 	end
 
 	def show
 		# TODO does not contain link back to project ?
-		@task = Task.find(params[:id])
-		@can_edit = true
-		@canAddComment = true
+		begin
+			@task = Task.find_(params[:id], @user)
+			@can_edit = true
+			@canAddComment = true
+		rescue ActiveRecord::RecordNotFound=>e
+			render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+		end
 	end
 
 	def edit
-		@task = Task.find(params[:id])
-		pip = ProjectPerson.where("project_id = ?", @task.project.id)
-		@people_to_assign = pip.map { |e| e.user }
+		begin
+			@task = Task.find_(params[:id], @user)
+			@people_to_assign = @task.project.users
+		rescue ActiveRecord::RecordNotFound=>e
+			render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+		end
 	end
 
 	def new
 		@project = Project.find(0) # TODO should use params[:project_id] !
 		@task = Task.new
-		pip = ProjectPerson.where("project_id = ?", @project.id)
-		@people_to_assign = pip.map { |e| e.user }
+		@people_to_assign = @project.users
 	end
 
 	#

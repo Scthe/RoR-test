@@ -63,20 +63,20 @@ class UserTest < ActiveSupport::TestCase
 
  test "should preety print name correctly" do
     u = create_ok_user
-    assert_equal "John Smith", u.preety_print
+    assert_equal "John Smith", u.to_s
 
     u = create_ok_user
     u.firstname = nil
-    assert_equal "User1 Smith", u.preety_print
+    assert_equal "User1 Smith", u.to_s
 
     u = create_ok_user
     u.lastname = nil
-    assert_equal "John", u.preety_print
+    assert_equal "John", u.to_s
 
     u = create_ok_user
     u.firstname = nil
     u.lastname = nil
-    assert_equal "User1", u.preety_print
+    assert_equal "User1", u.to_s
   end
 
   private

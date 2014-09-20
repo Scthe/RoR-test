@@ -1,21 +1,28 @@
 class ProjectsController < ApplicationController
 
 	skip_before_filter :verify_authenticity_token, :only => :create
+	set_page_type :projects
 
 	def index
-		pip = ProjectPerson.where("user_id = ?", @user.id)
-		@projects = pip.map { |e| e.project }
+		@projects = Project.projects_for_user( @user)
 	end
 
 	def show
-		@project = Project.find(params[:id])
-		@can_edit = true
-		# TODO handle fail
+		begin
+			@project = Project.find_(params[:id], @user)
+			@can_edit = true
+		rescue ActiveRecord::RecordNotFound=>e
+			render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+		end
 	end
 
 	def edit
-		@project = Project.find(params[:id])
-		@can_edit = true
+		# TODO add new person
+		begin
+			@project = Project.find_(params[:id], @user)
+		rescue ActiveRecord::RecordNotFound=>e
+			render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+		end
 	end
 
 	def new
@@ -43,7 +50,5 @@ class ProjectsController < ApplicationController
 			format.json { render json: { :msg => 'destroy !' }.to_json}
 		end
 	end
-
-
 
 end

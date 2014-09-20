@@ -81,7 +81,7 @@
                     <p><b data-translate="created_by">Created by</b>
                     <br />
                     <span class="details-info">
-                        <%= @task.created_by.preety_print %>
+                        <%= @task.created_by %>
                     </span></p>
                 </li>
                 <li class="details-list-item">
@@ -110,7 +110,7 @@
                 <%= image_tag "avatar2.jpg", { id: "assign-img" } %>
             <p id="assign-name">
                 <% unless @task.person_responsible.nil? %>
-                <%= @task.person_responsible.preety_print %>
+                <%= @task.person_responsible %>
                 <% end %>
             </p>
         </div>
@@ -182,7 +182,7 @@
         <li class="assignment-list-item" data-person-id="{{ person.id }}">
             <%= image_tag "avatar2.jpg" %>
             <span class="assignement-name">
-                <%= person.preety_print %>
+                <%= person %>
             </span>
         </li>
         <% end %>

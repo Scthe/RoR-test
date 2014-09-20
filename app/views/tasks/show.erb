@@ -43,7 +43,7 @@
                     <br />
                     <span class="details-info">
                         <% unless @task.person_responsible.nil? %>
-                            <%= link_to @task.person_responsible.preety_print, user_path(@task.person_responsible) %>
+                            <%= link_to @task.person_responsible, user_path(@task.person_responsible) %>
                           <% else %>
                             <span data-translate="not_assigned">Not assigned yet</span>
                         <% end %>
@@ -60,7 +60,7 @@
                     <br />
                     <%# <a href="<% url 'public_profile' task.createdBy.id % >"> %>
                     <span class="details-info" style="color: #428bca !important;">
-                        <%= link_to @task.created_by.preety_print, user_path(@task.created_by) %>
+                        <%= link_to @task.created_by, user_path(@task.created_by) %>
                     </span>
                     </a>
                 </p>
@@ -108,7 +108,7 @@
         <% @task.comments.each do |taskComment| %>
             <li class="comments-list-item">
                 <b>
-                    <%= taskComment.user.preety_print %>
+                    <%= taskComment.user %>
                 </b>
                 <span class="comments-time"><%= taskComment.created_at %></span>
                 <p><%= taskComment.text %></p>
