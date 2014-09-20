@@ -75,7 +75,14 @@ class ProjectsController < ApplicationController
 	def destroy
 		# TODO this should not be json..
 		respond_to do |format|
-			format.json { render json: { :msg => 'destroy !' }.to_json}
+			begin
+				@project = Project.find_(params[:id], @user)
+				@project.destroy
+				o = { :url => url_for( projects_path ) }
+				format.json { render json: o.to_json}
+			rescue ActiveRecord::RecordNotFound=>e
+				format.json { render json: { :status => 'Unexpected error' }.to_json, status: :unprocessable_entity}
+			end
 		end
 	end
 

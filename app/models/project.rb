@@ -1,9 +1,9 @@
 class Project < ActiveRecord::Base
 
 	belongs_to :user
-	has_many :tasks
+	has_many :tasks, dependent: :destroy
 	has_many :users, :through => :project_person
-	has_many :project_person
+	has_many :project_person, dependent: :destroy
 
 	validates :name, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A\w+\Z/, message: "Name contains invalid characters" }
 	validates :complete, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }

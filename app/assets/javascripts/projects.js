@@ -151,13 +151,8 @@ function deleteProject( url) {
         data: d,
         type: 'DELETE',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // if(json.success){
-                // window.location = "/task/" + json.id;
-                // window.location = json.full_url;
-            // }else{
-                // alert("Unspecified error");
-            // }
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
             alert("Error " + xhr.status + " " + errorThrown);
