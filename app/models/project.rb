@@ -23,19 +23,22 @@ class Project < ActiveRecord::Base
 	end
 
 	def self.create(params, user)
-		Project.transaction do
-			pr = Project.new( clean_params(params))
-			if pr.save!
-			# if pr.valid?
-				pr.id = 1
-				# add creator as admin !
-				ProjectPerson.create!(:project_id => pr.id, :user_id => user.id, :role => 0)
-				# ProjectPerson.new(:project_id => pr.id, :user_id => user.id)
-				return true, pr
-			else
-				return false, pr
+		pr = Project.new( clean_params(params))
+		begin
+			Project.transaction do
+				# params[:created_by_id] = user.id
+				if pr.save!
+					# if pr.valid?
+					# pr.id = 1
+					# add creator as admin !
+					ProjectPerson.create!(:project_id => pr.id, :user_id => user.id, :role => 0)
+					# ProjectPerson.new(:project_id => pr.id, :user_id => user.id)
+					return true, pr
+				end
 			end
+		rescue ActiveRecord::RecordInvalid=>e
 		end
+		return false, pr
 	end
 
 	private
