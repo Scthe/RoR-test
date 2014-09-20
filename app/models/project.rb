@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
 	has_many :users, :through => :project_person
 	has_many :project_person
 
-	validates :name, uniqueness: true, presence: true, length: { maximum: 50 }, format: { with: /\A\w+\Z/, message: "Name contains invalid characters" }
+	validates :name, uniqueness: true, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A\w+\Z/, message: "Name contains invalid characters" }
 	validates :complete, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
 	def self.projects_for_user( user)
@@ -22,4 +22,24 @@ class Project < ActiveRecord::Base
 		ProjectPerson.exists?( { :user_id => user.id, :project_id => project_id})
 	end
 
+	def self.create(params, user)
+		Project.transaction do
+			pr = Project.new( clean_params(params))
+			if pr.save!
+			# if pr.valid?
+				pr.id = 1
+				# add creator as admin !
+				ProjectPerson.create!(:project_id => pr.id, :user_id => user.id, :role => 0)
+				# ProjectPerson.new(:project_id => pr.id, :user_id => user.id)
+				return true, pr
+			else
+				return false, pr
+			end
+		end
+	end
+
+	private
+	def self.clean_params(params)
+		params.permit( :name, :complete, :description)
+	end
 end

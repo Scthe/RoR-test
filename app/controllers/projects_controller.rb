@@ -32,9 +32,17 @@ class ProjectsController < ApplicationController
 	#
 	#forms
 	def create
-		# p params[:project]
 		respond_to do |format|
-			format.json { render json: { :msg => 'seems ok' }.to_json}
+			ok, @project = Project.create( params[:project], @user)
+			if ok
+				format.json {
+					o = @project.attributes
+					o[:url] = url_for( project_path (@project) )
+					render json: o.to_json, status: :created # render json: @project, status: :created
+				}
+			else
+				format.json { render json: @project.errors.keys, status: :unprocessable_entity }
+			end
 		end
 	end
 

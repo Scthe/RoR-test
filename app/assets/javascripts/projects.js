@@ -98,17 +98,15 @@ function createProject(url) {
         data: d,
         type: 'POST',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // window.location = json.full_url;
+            // console.log('ok! > \'' + JSON.stringify(json) + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
-            //console.log(textStatus + "::" + errorThrown + "->" + xhr.responseText);
+            var json = xhr.responseJSON;
+            // console.log(json);
             try {
-                var json = $.parseJSON(xhr.responseText);
-                if ('fields' in json) {
-                    for (var f in json.fields) {
-                        $('input[name="' + json.fields[f] + '"]').parent().addClass("has-error");
-                    }
+                for (var f in json) {
+                    $('input[name="project[' + json[f] + ']"]').parent().addClass("has-error");
                 }
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);
