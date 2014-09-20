@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
 	has_many :users, :through => :project_person
 	has_many :project_person
 
-	validates :name, uniqueness: true, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A\w+\Z/, message: "Name contains invalid characters" }
+	validates :name, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A\w+\Z/, message: "Name contains invalid characters" }
 	validates :complete, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
 	def self.projects_for_user( user)
@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
 		pr = Project.new( clean_params(params))
 		begin
 			Project.transaction do
-				# params[:created_by_id] = user.id
+				params[:created_by_id] = user.id
 				if pr.save!
 					# if pr.valid?
 					# pr.id = 1
@@ -38,6 +38,30 @@ class Project < ActiveRecord::Base
 			end
 		rescue ActiveRecord::RecordInvalid=>e
 		end
+
+		return false, pr
+	end
+
+	def self.update( id, params, tasks_to_remove, people_remove, people_to_add, user)
+		# TODO check if admin
+		begin
+			Project.transaction do
+				pr = find_(id, user)
+				pr.id = id
+
+				if pr.update!(clean_params(params))
+					Task.where(:project_id => id, :id => tasks_to_remove).destroy_all
+					ProjectPerson.where(:project_id => id, :id => people_remove).destroy_all
+					# add people
+					people_to_add.each do |person_id|
+						ProjectPerson.create!(:project_id => pr.id, :user_id => person_id, :role => 0)
+					end
+					return true, pr
+				end
+			end
+		rescue ActiveRecord::RecordInvalid=>e
+		end
+
 		return false, pr
 	end
 

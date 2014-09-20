@@ -48,7 +48,27 @@ class ProjectsController < ApplicationController
 
 	def update
 		respond_to do |format|
-			format.json { render json: { :msg => 'update !' }.to_json}
+			begin
+				ok, @project = Project.update( params[:id],
+											 params[:project],
+											 params[:tasksToRemove][1..-2].split(",").map(&:to_i),
+											 params[:peopleToRemove][1..-2].split(",").map(&:to_i),
+											 params[:peopleToAdd][1..-2].split(",").map(&:to_i),
+											 @user)
+				if ok
+					format.json {
+						o = @project.attributes
+						o[:url] = url_for( project_path (@project) )
+						render json: o.to_json # render json: @project, status: :created
+					}
+				else
+					format.json { render json: @project.errors.keys, status: :unprocessable_entity }
+				end
+			rescue ActiveRecord::RecordNotFound=>e
+				format.json { render json: { :status => 'You do not have right to modify this project' }.to_json, status: :forbidden}
+			rescue =>e
+				format.json { render json: { :status => 'Unexpected error' }.to_json, status: :unprocessable_entity}
+			end
 		end
 	end
 
