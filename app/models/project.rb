@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
 	has_many :users, :through => :project_person
 	has_many :project_person, dependent: :destroy
 
-	validates :name, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A\w+\Z/, message: "Name contains invalid characters" }
+	validates :name, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A[A-Za-z0-9 -]+\Z/, message: "Name contains invalid characters" }
 	validates :complete, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
 	def self.projects_for_user( user)
@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
 		pr = Project.new( clean_params(params))
 		begin
 			Project.transaction do
-				params[:created_by_id] = user.id
+				pr[:created_by_id] = user.id
 				if pr.save!
 					# if pr.valid?
 					# pr.id = 1

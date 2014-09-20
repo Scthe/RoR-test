@@ -9,23 +9,20 @@ function setSubmit(button) {
 function createTask(url) {
     var d = $('#task-form').serialize(); // get the form data
     var personResponsibleId = $("#assign-img-div").data("person-id");
-    d += "&personResponsibleId=" + JSON.stringify(personResponsibleId);
+    d += "&task[person_responsible_id]=" + JSON.stringify(personResponsibleId);
 
     $.ajax(url, {
         data: d,
         type: 'POST',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // window.location = "/task/" + json.id; // TODO hardcoded url
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
+            var json = xhr.responseJSON;
             try {
-                var json = $.parseJSON(xhr.responseText);
-                if ('fields' in json) {
-                    console.log(json.fields);
-                    for (var f in json.fields) {
-                        $('input[name="' + json.fields[f] + '"]').parent().addClass("has-error");
-                    }
+                for (var f in json) {
+                    $('input[name="task[' + json[f] + ']"]').parent().addClass("has-error");
                 }
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);

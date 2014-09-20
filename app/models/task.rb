@@ -43,8 +43,28 @@ class Task < ActiveRecord::Base
 		task
 	end
 
+	def self.create(params, user)
+		t = Task.new( clean_params(params))
+		begin
+			Task.transaction do
+				t[:created_by_id] = user.id
+				if t.save!
+					return true, t
+				end
+			end
+		rescue ActiveRecord::RecordInvalid=>e # does not pass validation
+		end
+
+		return false, t
+	end
+
 	private
 	def can_be_viewed_by( user)
 		Project.can_be_viewed_by( self.project.id, user)
 	end
+
+	def self.clean_params(params)
+		params.permit( :title, :task_type, :deadline, :description, :project_id, :person_responsible_id, :deadline)
+	end
+
 end

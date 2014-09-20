@@ -35,9 +35,17 @@ class TasksController < ApplicationController
 	#
 	# forms
 	def create
-		# p params[:project]
 		respond_to do |format|
-			format.json { render json: { :msg => 'seems ok' }.to_json}
+			ok, @task = Task.create( params[:task], @user)
+			if ok
+				format.json {
+					o = @task.attributes
+					o[:url] = url_for( task_path (@task) )
+					render json: o.to_json, status: :created # render json: @task, status: :created
+				}
+			else
+				format.json { render json: @task.errors.keys, status: :unprocessable_entity }
+			end
 		end
 	end
 

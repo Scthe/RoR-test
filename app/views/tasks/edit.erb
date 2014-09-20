@@ -179,7 +179,7 @@
     </header>
      <ul id="assignment-list" class="clearfix">
         <% @people_to_assign.each do |person| %>
-        <li class="assignment-list-item" data-person-id="{{ person.id }}">
+        <li class="assignment-list-item" data-person-id="<%= person.id %>">
             <%= image_tag "avatar2.jpg" %>
             <span class="assignement-name">
                 <%= person %>
