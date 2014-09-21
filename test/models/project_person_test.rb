@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PersonInProjectTest < ActiveSupport::TestCase
+class ProjectPersonTest < ActiveSupport::TestCase
 
 	def setup
 		@pp  = projectPerson(:person_in_project_a)
