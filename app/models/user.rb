@@ -20,9 +20,6 @@ class User < ActiveRecord::Base
 =end
 
 	def to_s
-		n = firstname
-		n ||= username
-		l = lastname
-		if l.nil? then n else n + " " + l end
+		if firstname.nil? or lastname.nil? then username else firstname + " " + lastname end
 	end
 end

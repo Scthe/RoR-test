@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, :type => :model do
 
   before(:each) do
-    @user = build(:user)
+    @user = build(:user_a)
   end
 
 
@@ -69,21 +69,20 @@ RSpec.describe User, :type => :model do
   end
 
   it "should preety print name correctly" do
-    u = build(:user)
-    expect(u.to_s).to eq("John Smith")
+    u = build(:user_a)
+    expect(u.to_s).to eq("George Washington")
 
-    u = build(:user)
+    u = build(:user_a)
     u.firstname = nil
-    expect(u.to_s).to eq("User1 Smith")
+    expect(u.to_s).to eq(u.username)
 
-    u = build(:user)
+    u = build(:user_a)
     u.lastname = nil
-    expect(u.to_s).to eq("John")
+    expect(u.to_s).to eq(u.username)
 
-    u = build(:user)
+    u = build(:user_a)
     u.firstname = nil
     u.lastname = nil
-    expect(u.to_s).to eq("User1")
+    expect(u.to_s).to eq(u.username)
   end
-
 end

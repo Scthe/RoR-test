@@ -43,7 +43,4 @@ RSpec.configure do |config|
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
-  config.before(:suite) do
-    FactoryGirl.lint
-  end
 end
