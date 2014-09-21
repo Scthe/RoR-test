@@ -11,6 +11,12 @@ class ProjectTest < ActiveSupport::TestCase
 	end
 
 	test "should have proper name" do
+		@project.name = ""
+		assert_not @project.valid?
+
+		@project.name = nil
+		assert_not @project.valid?
+
 		@project.name = "Aasd!!!"
 		assert_not @project.valid?
 

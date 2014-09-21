@@ -28,7 +28,7 @@ function setSubmit(button) {
 /*
  * person assignment search
  */
-function searchPerson() {
+function searchPerson() { // TODO seach person
     var d = $('#assignment-form').serialize(); // get the form data
     ++searchQueryId;
     d += "&search-token=" + searchQueryId;
@@ -98,17 +98,15 @@ function createProject(url) {
         data: d,
         type: 'POST',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // window.location = json.full_url;
+            // console.log('ok! > \'' + JSON.stringify(json) + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
-            //console.log(textStatus + "::" + errorThrown + "->" + xhr.responseText);
+            var json = xhr.responseJSON;
+            // console.log(json);
             try {
-                var json = $.parseJSON(xhr.responseText);
-                if ('fields' in json) {
-                    for (var f in json.fields) {
-                        $('input[name="' + json.fields[f] + '"]').parent().addClass("has-error");
-                    }
+                for (var f in json) {
+                    $('input[name="project[' + json[f] + ']"]').parent().addClass("has-error");
                 }
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);
@@ -118,6 +116,7 @@ function createProject(url) {
 }
 
 function editProject( url) {
+    // TODO unmark errors ?
     var d = $('#project-form').serialize(); // get the form data
     d += "&tasksToRemove=" + JSON.stringify(tasksToRemove);
     d += "&peopleToRemove=" + JSON.stringify(peopleToRemove);
@@ -128,16 +127,15 @@ function editProject( url) {
         data: d,
         type: 'PUT',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // window.location = json.full_url;
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
+            var json = xhr.responseJSON;
+            console.log(json);
             try {
-                var json = $.parseJSON(xhr.responseText);
-                if ('fields' in json) {
-                    for (var f in json.fields) {
-                        $('input[name="' + json.fields[f] + '"]').parent().addClass("has-error");
-                    }
+                for (var f in json) {
+                    $('input[name="project[' + json[f] + ']"]').parent().addClass("has-error");
                 }
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);
@@ -153,13 +151,8 @@ function deleteProject( url) {
         data: d,
         type: 'DELETE',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // if(json.success){
-                // window.location = "/task/" + json.id;
-                // window.location = json.full_url;
-            // }else{
-                // alert("Unspecified error");
-            // }
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
             alert("Error " + xhr.status + " " + errorThrown);

@@ -1,62 +1,86 @@
 class TasksController < ApplicationController
 
 	# TODO add comments as inner resource
+	set_page_type :tasks
 
 	def index
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		t = ApplicationHelper::stub_task( @user)
-		@tasks = [t,t,t,t]
 	end
 
 	def show
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@task = ApplicationHelper::stub_task( @user)
-		@can_edit = true
-		@canAddComment = true
+		# TODO does not contain link back to project ?
+		begin
+			@task = Task.find_(params[:id], @user)
+			@can_edit = true
+			@canAddComment = true
+		rescue ActiveRecord::RecordNotFound=>e
+			render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+		end
 	end
 
 	def edit
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@task = ApplicationHelper::stub_task( @user)
-		@people_to_assign = (0...4).to_a.map { |e| ApplicationHelper::stub_user }
+		begin
+			@task = Task.find_(params[:id], @user)
+			@people_to_assign = @task.project.users
+		rescue ActiveRecord::RecordNotFound=>e
+			render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+		end
 	end
 
 	def new
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-
-		@project = ApplicationHelper::stub_project @user
+		@project = Project.find(0) # TODO should use params[:project_id] !
 		@task = Task.new
-		@people_to_assign = (0...4).to_a.map { |e| ApplicationHelper::stub_user }
-
-		render layout: true
+		@people_to_assign = @project.users
 	end
 
 	#
 	# forms
 	def create
-		# p params[:project]
 		respond_to do |format|
-			format.json { render json: { :msg => 'seems ok' }.to_json}
+			ok, @task = Task.create( params[:task], @user)
+			if ok
+				format.json {
+					o = @task.attributes
+					o[:url] = url_for( task_path (@task) )
+					render json: o.to_json, status: :created # render json: @task, status: :created
+				}
+			else
+				format.json { render json: @task.errors.keys, status: :unprocessable_entity }
+			end
 		end
 	end
 
 	def update
 		respond_to do |format|
-			format.json { render json: { :msg => 'update !' }.to_json}
+			begin
+				ok, @task = Task.update( params[:id], params[:task], @user)
+				if ok
+					format.json {
+						o = @task.attributes
+						o[:url] = url_for( task_path (@task) )
+						render json: o.to_json
+					}
+				else
+					format.json { render json: @task.errors.keys, status: :unprocessable_entity }
+				end
+			rescue ActiveRecord::RecordNotFound=>e
+				format.json { render json: { :status => 'You do not have right to modify this task' }.to_json, status: :forbidden}
+			rescue =>e
+				format.json { render json: { :status => 'Unexpected error' }.to_json, status: :unprocessable_entity}
+			end
 		end
 	end
 
 	def destroy
 		# TODO this should not be json..
 		respond_to do |format|
-			format.json { render json: { :msg => 'destroy !' }.to_json}
+			begin
+				@task = Task.find_(params[:id], @user)
+				@task.destroy
+				o = { :url => url_for( tasks_path ) }
+				format.json { render json: o.to_json}
+			rescue ActiveRecord::RecordNotFound=>e
+				format.json { render json: { :status => 'Unexpected error' }.to_json, status: :unprocessable_entity}
+			end
 		end
 	end
 

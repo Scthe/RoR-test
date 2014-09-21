@@ -48,7 +48,7 @@
 
             <section class="data-section">
                 <header data-translate="task_status">Status</header>
-                    <select id="task-type" name="type">
+                    <select id="task-type" name="task[task_type]">
                         <% Task::TASK_TYPES_L.each do |a| %>
                             <% if a[:value] == @task.task_type_obj[:value] %>
                                 <option value="<%= a[:value] %>" selected="selected"><%= a[:display_name] %></option>
@@ -62,7 +62,7 @@
 
             <section class="data-section">
                 <header data-translate="deadline">Deadline</header>
-                <input class="form-control" id="task-deadline" type="date" name="deadline" value="<%= @task.deadline %>" style="max-width: 300px;">
+                <input class="form-control" id="task-deadline" type="date" name="task[deadline]" value="<%= @task.deadline %>" style="max-width: 300px;">
             </section>
 
             <section class="data-section">
@@ -81,7 +81,7 @@
                     <p><b data-translate="created_by">Created by</b>
                     <br />
                     <span class="details-info">
-                        <%= @task.created_by.preety_print %>
+                        <%= @task.created_by %>
                     </span></p>
                 </li>
                 <li class="details-list-item">
@@ -103,14 +103,14 @@
             </div>
         </div>
         <header class="clearfix" data-translate="task_assign">Assign</header>
-        <div id="assign-img-div" style="display:none" data-person-id="<%# task.personResponsible.id|default:"-1" %>">
+        <div id="assign-img-div" style="display:none" data-person-id="<%= if @task.person_responsible.nil? then -1 else @task.person_responsible.id end %>">
              <p class="person-remove">
                     <span class="glyphicon glyphicon-remove"></span>
                 <p>
                 <%= image_tag "avatar2.jpg", { id: "assign-img" } %>
             <p id="assign-name">
                 <% unless @task.person_responsible.nil? %>
-                <%= @task.person_responsible.preety_print %>
+                <%= @task.person_responsible %>
                 <% end %>
             </p>
         </div>
@@ -179,10 +179,10 @@
     </header>
      <ul id="assignment-list" class="clearfix">
         <% @people_to_assign.each do |person| %>
-        <li class="assignment-list-item" data-person-id="{{ person.id }}">
+        <li class="assignment-list-item" data-person-id="<%= person.id %>">
             <%= image_tag "avatar2.jpg" %>
             <span class="assignement-name">
-                <%= person.preety_print %>
+                <%= person %>
             </span>
         </li>
         <% end %>

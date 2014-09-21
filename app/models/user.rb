@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     #t.date :birthdate
 =end
 
-	def preety_print
+	def to_s
 		n = firstname
 		n ||= username
 		l = lastname

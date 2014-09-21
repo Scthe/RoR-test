@@ -3,24 +3,37 @@ class ApplicationController < ActionController::Base
 	# For APIs, you may want to use :null_session instead.
 	protect_from_forgery with: :exception
 
+	before_filter do |c|
+		# TODO handle better f.e. require_login :index, :show etc. Use separate module in /lib
+
+		@user = User.find(c.session[:user]) unless c.session[:user].nil?
+		@user ||= User.find(0)
+		# TODO skip this for api calls
+		@task_list = Task.where( "person_responsible_id = ?", @user.id)
+		@task_count = @task_list.length
+
+		@data_page_type = :dashboard
+	end
+
 	def index
 		# TODO use jade
 		# TODO add languages using some gem
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-		render layout: true
 	end
 
 	def settings
-		@user = ApplicationHelper::stub_user
-		@task_count = 5
-		render layout: true
 	end
 
 	def logout
 		redirect_to "/"
 	end
 
+	def self.set_page_type( t)
+		# TODO move to separat module
+		allowed = [:dashboard, :projects, :tasks]
+		before_filter do |c|
+			@data_page_type = t if allowed.include? t
+		end
+	end
 
 =begin
 

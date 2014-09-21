@@ -9,23 +9,20 @@ function setSubmit(button) {
 function createTask(url) {
     var d = $('#task-form').serialize(); // get the form data
     var personResponsibleId = $("#assign-img-div").data("person-id");
-    d += "&personResponsibleId=" + JSON.stringify(personResponsibleId);
+    d += "&task[person_responsible_id]=" + JSON.stringify(personResponsibleId);
 
     $.ajax(url, {
         data: d,
         type: 'POST',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // window.location = "/task/" + json.id; // TODO hardcoded url
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
+            var json = xhr.responseJSON;
             try {
-                var json = $.parseJSON(xhr.responseText);
-                if ('fields' in json) {
-                    console.log(json.fields);
-                    for (var f in json.fields) {
-                        $('input[name="' + json.fields[f] + '"]').parent().addClass("has-error");
-                    }
+                for (var f in json) {
+                    $('input[name="task[' + json[f] + ']"]').parent().addClass("has-error");
                 }
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);
@@ -37,23 +34,21 @@ function createTask(url) {
 function editTask(url) {
     var personResponsibleId = $("#assign-img-div").data("person-id");
     var d = $('#task-form').serialize(); // get the form data
-    d += "&personResponsibleId=" + JSON.stringify(personResponsibleId);
-    d += "&filesToRemove=" + JSON.stringify(filesToRemove);
+    d += "&task[person_responsible_id]=" + JSON.stringify(personResponsibleId);
+    // d += "&filesToRemove=" + JSON.stringify(filesToRemove);
 
     $.ajax(url, {
         data: d,
         type: 'PUT',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // window.location = readTask_url;
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
+            var json = xhr.responseJSON;
             try {
-                var json = $.parseJSON(xhr.responseText);
-                if ('fields' in json) {
-                    for (var f in json.fields) {
-                        $('input[name="' + json.fields[f] + '"]').parent().addClass("has-error");
-                    }
+                for (var f in json) {
+                    $('input[name="task[' + json[f] + ']"]').parent().addClass("has-error");
                 }
             } catch (err) {
                 alert("Unrecognised error " + xhr.status + " " + errorThrown);
@@ -69,13 +64,8 @@ function deleteTask( url) {
         data: d,
         type: 'DELETE',
         success: function(json) {
-            console.log('ok! > \'' + json.msg + '\'');
-            // if(json.success){
-                // window.location = "/task/" + json.id;
-                // window.location = successUrl;
-            // }else{
-                // alert("Unspecified error");
-            // }
+            // console.log('ok! > \'' + json.msg + '\'');
+            window.location = json.url;
         },
         error: function(xhr, textStatus, errorThrown) {
             alert("Error " + xhr.status + " " + errorThrown);

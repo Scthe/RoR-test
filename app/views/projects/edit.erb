@@ -89,7 +89,7 @@
                 <td class="tasks-cell tasks-col2"><%= task.title %></td>
                 <td class="tasks-cell tasks-col3">
                     <% unless task.person_responsible.nil? %>
-                        <%= link_to task.person_responsible.preety_print, user_path(task.person_responsible) %>
+                        <%= link_to task.person_responsible, user_path(task.person_responsible) %>
                     <% else %>
                         <span data-translate="not_assigned">Not assigned yet</span>
                     <% end %>
@@ -123,7 +123,7 @@
                     <span class="glyphicon glyphicon-remove"></span>
                 <p>
                 <%= image_tag "avatar2.jpg" %>
-                <%= person.preety_print %>
+                <%= person %>
             </li>
             <% end %>
 

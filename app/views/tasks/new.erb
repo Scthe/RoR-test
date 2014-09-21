@@ -35,7 +35,7 @@
 
             <section class="data-section">
                 <header data-translate="task_status">Status</header>
-                    <select id="task-type" name="type">
+                    <select id="task-type" name="task[task_type]">
                         <% Task::TASK_TYPES_L.each do |a| %>
                             <option value="<%= a[:value] %>"><%= a[:display_name] %></option>
                         <% end %>
@@ -45,7 +45,7 @@
 
             <section class="data-section">
                 <header data-translate="deadline">Deadline</header>
-                <input class="form-control" id="task-deadline" type="date" name="deadline" value="<%= @task.deadline %>" style="max-width: 300px;">
+                <input class="form-control" id="task-deadline" type="date" name="task[deadline]" value="<%= @task.deadline %>" style="max-width: 300px;">
             </section>
 
             <section class="data-section">
@@ -74,7 +74,7 @@
                 <%= image_tag "avatar2.jpg", { id: "assign-img" } %>
             <p id="assign-name">
                 <% unless @task.person_responsible.nil? %>
-                <%= @task.person_responsible.preety_print %>
+                <%= @task.person_responsible %>
                 <% end %>
             </p>
         </div>
@@ -103,10 +103,10 @@
     </header>
      <ul id="assignment-list" class="clearfix">
         <% @people_to_assign.each do |person| %>
-        <li class="assignment-list-item" data-person-id="{{ person.id }}">
+        <li class="assignment-list-item" data-person-id="<%= person.id %>">
             <%= image_tag "avatar2.jpg" %>
             <span class="assignement-name">
-                <%= person.preety_print %>
+                <%= person %>
             </span>
         </li>
         <% end %>

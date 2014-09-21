@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 task_a:
+  id: 0
   project_id: project_a
   person_responsible_id: user_a 
   title: Task 1
@@ -10,10 +11,11 @@ task_a:
   created_by_id: user_a
 
 task_b:
+  id: 1
   project_id: project_b
   person_responsible_id:
   title: Task 2
   task_type: 3
   deadline:
-  description:
-  created_by_id: user_b
+  description: None ?
+  created_by_id: user_a
