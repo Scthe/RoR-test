@@ -1,13 +1,11 @@
 class TasksController < ApplicationController
 
-	# TODO add comments as inner resource
 	set_page_type :tasks
 
 	def index
 	end
 
 	def show
-		# TODO does not contain link back to project ?
 		begin
 			@task = Task.find_(params[:id], @user)
 			@can_edit = true
@@ -27,7 +25,7 @@ class TasksController < ApplicationController
 	end
 
 	def new
-		@project = Project.find(0) # TODO should use params[:project_id] !
+		@project = Project.find(0)
 		@task = Task.new
 		@people_to_assign = @project.users
 	end
@@ -71,7 +69,6 @@ class TasksController < ApplicationController
 	end
 
 	def destroy
-		# TODO this should not be json..
 		respond_to do |format|
 			begin
 				@task = Task.find_(params[:id], @user)

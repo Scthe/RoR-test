@@ -1,5 +1,4 @@
 class Task < ActiveRecord::Base
-	# TODO color the horizontal bar above content
 
 	BUG 		= { :value => 0, :display_name => 'Bug' }
 	IMPROVEMENT = { :value => 1, :display_name => 'Improvement' }

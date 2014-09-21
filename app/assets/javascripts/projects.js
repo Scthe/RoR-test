@@ -1,6 +1,3 @@
-// TODO add better error markers ?
-// TODO add confirmation dialogs
-
 var searchQueryId = 0;
 
 $(document).ready(function() {
@@ -28,7 +25,7 @@ function setSubmit(button) {
 /*
  * person assignment search
  */
-function searchPerson() { // TODO seach person
+function searchPerson() { // TODO search person
     var d = $('#assignment-form').serialize(); // get the form data
     ++searchQueryId;
     d += "&search-token=" + searchQueryId;

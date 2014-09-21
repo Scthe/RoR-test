@@ -81,7 +81,6 @@ class UserTest < ActiveSupport::TestCase
 
   private
   def create_ok_user
-    # TODO use fixtures
     User.new.tap do |u|
       u.username = "User1"
       u.firstname = "John"

@@ -32,6 +32,7 @@
 
 <section class="clearfix">
     <div class="left-cell">
+        <%= link_to "Back to project", project_path(@task.project_id), :style => "font-size: 18px; margin-top: 15px;" %>
         <h1 data-translate="description">Description</h1>
         <p><%= @task.description %></p>
     </div>

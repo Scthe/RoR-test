@@ -17,7 +17,6 @@ class ProjectsController < ApplicationController
 	end
 
 	def edit
-		# TODO add new person
 		begin
 			@project = Project.find_(params[:id], @user)
 		rescue ActiveRecord::RecordNotFound=>e
@@ -73,7 +72,6 @@ class ProjectsController < ApplicationController
 	end
 
 	def destroy
-		# TODO this should not be json..
 		respond_to do |format|
 			begin
 				@project = Project.find_(params[:id], @user)

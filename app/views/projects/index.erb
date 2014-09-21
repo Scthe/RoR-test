@@ -18,13 +18,11 @@
 
 <ul id="projects-list" class="main-panel-content">
     
-    <%# TODO separate template %>
     <% @projects.each do |project| %>
         <%= link_to project_path(project) do %>
         <li class="projects-list-item">
             <h2><%= project.name %></h2>
-            <%# TODO <%= project.description|slice:":40" %>
-            <span><%= project.description %></span>
+            <span><%= project.description[0..40] %></span>
             <b><%= project.complete %>% complete</b>
         </li>
         <% end %>

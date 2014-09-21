@@ -67,7 +67,6 @@
     <!-- tasks -->
     <section class="data-section">
         <div id="view-header-right">
-            <%# TODO href="{% url 'task_create' project.id %}"%>
             <div id="task-create" class="project-button">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span data-translate="task_add">add new task</span>
@@ -115,7 +114,6 @@
             </div>
         </div>
         <header class="clearfix" data-translate="project_people">People</header>
-        <!--TODO for each person add connection type: { admin/progr./etc}-->
         <ul id="people-list" class="clearfix">
             <% @project.users.each do |person| %>
             <li class="people-list-item" data-person-id="<%= person.id %>">

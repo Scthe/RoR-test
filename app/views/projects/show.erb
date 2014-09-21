@@ -18,38 +18,6 @@
 <% end %>
 
 
-<section class="clearfix" style="display:none">
-    <div class="read-cell">
-        <!--TODO chart-->
-        <h1>chart</h1>
-    </div>
-    <div class="read-cell">
-        <!--TODO activity-list-->
-        <ul id="activity-list">
-            <li class="activity-list-item">
-                <span class="glyphicon glyphicon-ok"></span>
-                <b>80% complete</b>
-                <span class="activity-time">11 min ago</span>
-            </li>
-            <li class="activity-list-item">
-                <span class="glyphicon glyphicon-ok"></span>
-                <b>80% complete</b>
-                <span class="activity-time">11 min ago</span>
-            </li>
-            <li class="activity-list-item">
-                <span class="glyphicon glyphicon-ok"></span>
-                <b>80% complete</b>
-                <span class="activity-time">11 min ago</span>
-            </li>
-            <li class="activity-list-item">
-                <span class="glyphicon glyphicon-ok"></span>
-                <b>80% complete</b>
-                <span class="activity-time">11 min ago</span>
-            </li>
-        </ul>
-    </div>
-</section>
-
 <section class="data-section">
     <header data-translate="description">Description</header>
     <p><%= @project.description %></p>
@@ -58,7 +26,6 @@
 <section class="data-section">
     <div id="view-header-right">
         <%= link_to new_task_path do %>
-        <%# TODO a href="{% url 'task_create' project.id %}" %>
         <span class="glyphicon glyphicon-plus"></span>
         add new task
         <% end %>

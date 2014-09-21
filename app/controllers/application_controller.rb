@@ -16,8 +16,18 @@ class ApplicationController < ActionController::Base
 	end
 
 	def index
+		# TODO root => login page
+		# TODO heroku
+		# 
+		# TODO integration tests
+		# TODO task create - should have some better reference to project ( use url)
+		# TODO partial views
+		# TODO add comments as inner resource for task
+		# 
+		# TODO check CSRF tokens with REST api
 		# TODO use jade
 		# TODO add languages using some gem
+		
 	end
 
 	def settings
@@ -37,7 +47,7 @@ class ApplicationController < ActionController::Base
 
 =begin
 
-TODO http://stackoverflow.com/questions/3992659/in-rails-what-exactly-do-helper-and-helper-method-do
+http://stackoverflow.com/questions/3992659/in-rails-what-exactly-do-helper-and-helper-method-do
 
 In case of 'not [:id] provided just add field :id to the object'
 
