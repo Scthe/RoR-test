@@ -47,7 +47,6 @@ class Project < ActiveRecord::Base
 		begin
 			Project.transaction do
 				pr = find_(id, user)
-				pr.id = id
 
 				if pr.update!(clean_params(params))
 					Task.where(:project_id => id, :id => tasks_to_remove).destroy_all

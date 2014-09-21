@@ -45,17 +45,13 @@ class Task < ActiveRecord::Base
 
 	def self.create(params, user)
 		t = Task.new( clean_params(params))
-		begin
-			Task.transaction do
-				t[:created_by_id] = user.id
-				if t.save!
-					return true, t
-				end
-			end
-		rescue ActiveRecord::RecordInvalid=>e # does not pass validation
-		end
+		t[:created_by_id] = user.id
+		return t.save, t
+	end
 
-		return false, t
+	def self.update( id, params, user)
+		t = Task.find_( id, user)
+		return t.update( clean_params_edit(params)), t
 	end
 
 	private
@@ -64,7 +60,11 @@ class Task < ActiveRecord::Base
 	end
 
 	def self.clean_params(params)
-		params.permit( :title, :task_type, :deadline, :description, :project_id, :person_responsible_id, :deadline)
+		params.permit( :title, :task_type, :deadline, :description, :project_id, :person_responsible_id)
+	end
+
+	def self.clean_params_edit(params)
+		params.permit( :title, :task_type, :deadline, :description, :person_responsible_id)
 	end
 
 end

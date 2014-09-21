@@ -51,14 +51,36 @@ class TasksController < ApplicationController
 
 	def update
 		respond_to do |format|
-			format.json { render json: { :msg => 'update !' }.to_json}
+			begin
+				ok, @task = Task.update( params[:id], params[:task], @user)
+				if ok
+					format.json {
+						o = @task.attributes
+						o[:url] = url_for( task_path (@task) )
+						render json: o.to_json
+					}
+				else
+					format.json { render json: @task.errors.keys, status: :unprocessable_entity }
+				end
+			rescue ActiveRecord::RecordNotFound=>e
+				format.json { render json: { :status => 'You do not have right to modify this task' }.to_json, status: :forbidden}
+			rescue =>e
+				format.json { render json: { :status => 'Unexpected error' }.to_json, status: :unprocessable_entity}
+			end
 		end
 	end
 
 	def destroy
 		# TODO this should not be json..
 		respond_to do |format|
-			format.json { render json: { :msg => 'destroy !' }.to_json}
+			begin
+				@task = Task.find_(params[:id], @user)
+				@task.destroy
+				o = { :url => url_for( tasks_path ) }
+				format.json { render json: o.to_json}
+			rescue ActiveRecord::RecordNotFound=>e
+				format.json { render json: { :status => 'Unexpected error' }.to_json, status: :unprocessable_entity}
+			end
 		end
 	end
 
