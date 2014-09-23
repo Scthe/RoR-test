@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
 	set_page_type :projects
 
 	def index
-		@projects = Project.projects_for_user( @user)
+		@projects = @user.projects
 	end
 
 	def show

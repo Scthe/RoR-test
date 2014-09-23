@@ -38,7 +38,7 @@ class Task < ActiveRecord::Base
 
 	def self.find_( task_id, user)
 		task = find(task_id)
-		raise ActiveRecord::RecordNotFound unless task.send( :can_be_viewed_by, user) # TODO send ?!
+		raise ActiveRecord::RecordNotFound unless user.member_of?(task.project.id)
 		task
 	end
 
@@ -54,10 +54,6 @@ class Task < ActiveRecord::Base
 	end
 
 	private
-	def can_be_viewed_by( user)
-		Project.can_be_viewed_by( self.project.id, user)
-	end
-
 	def self.clean_params(params)
 		params.permit( :title, :task_type, :deadline, :description, :project_id, :person_responsible_id)
 	end
