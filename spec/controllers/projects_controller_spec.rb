@@ -7,7 +7,7 @@ RSpec.describe ProjectsController, :type => :controller do
 		@project_b = build(:project_b)
 		@projects = [ @project_a, @project_b]
 
-		@user = double member_of?: true, id: 1, projects: @projects
+		@user = double member_of?: true, id: 1, projects: @projects, tasks_to_do: []
 		controller.instance_variable_set(:@user, @user)
 
 		@project = double destroy: nil
@@ -60,29 +60,32 @@ RSpec.describe ProjectsController, :type => :controller do
 	end
 
 	context "fail to get project" do
+		context "show" do
+			it "should 403 if project not found - show" do
+				expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
+				get :show, id: 0
+				expect(response).to have_http_status(403)
+			end
 
-		it "should 403 if project not found - show" do
-			expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
-			get :show, id: 0
-			expect(response).to have_http_status(403)
+			it "should 403 if user is not memeber of the project - show" do
+				expect(@user).to receive(:member_of?).and_return( false)
+				get :show, id: 0
+				expect(response).to have_http_status(403)
+			end
 		end
 
-		it "should 403 if user is not memeber of the project - show" do
-			expect(@user).to receive(:member_of?).and_return( false)
-			get :show, id: 0
-			expect(response).to have_http_status(403)
-		end
+		context "edit" do
+			it "should 403 if project not found - edit" do
+				expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
+				get :edit, id: 0
+				expect(response).to have_http_status(403)
+			end
 
-		it "should 403 if project not found - edit" do
-			expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
-			get :edit, id: 0
-			expect(response).to have_http_status(403)
-		end
-
-		it "should 403 if user is not memeber of the project - edit" do
-			expect(@user).to receive(:member_of?).and_return( false)
-			get :edit, id: 0
-			expect(response).to have_http_status(403)
+			it "should 403 if user is not memeber of the project - edit" do
+				expect(@user).to receive(:member_of?).and_return( false)
+				get :edit, id: 0
+				expect(response).to have_http_status(403)
+			end
 		end
 	end
 
@@ -226,7 +229,6 @@ RSpec.describe ProjectsController, :type => :controller do
 
 				expect(response).to have_http_status(422)
 			end
-
 		end
 
 	end
