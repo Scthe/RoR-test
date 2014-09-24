@@ -8,21 +8,12 @@ class Project < ActiveRecord::Base
 	validates :name, presence: true, length: { minimum: 3, maximum: 50 }, format: { with: /\A[A-Za-z0-9 -]+\Z/, message: "Name contains invalid characters" }
 	validates :complete, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
-	def self.projects_for_user( user)
-		pip = ProjectPerson.where("user_id = ?", user.id)
-		pip.map { |e| e.project }
-	end
-
 	def self.find_( project_id, user)
-		raise ActiveRecord::RecordNotFound unless Project.can_be_viewed_by( project_id, user)
+		raise ActiveRecord::RecordNotFound unless user.member_of?( project_id)
 		find(project_id)
 	end
 
-	def self.can_be_viewed_by( project_id, user)
-		ProjectPerson.exists?( { :user_id => user.id, :project_id => project_id})
-	end
-
-	def self.create(params, user)
+	def self.create(params, user) # TODO test
 		pr = Project.new( clean_params(params))
 		begin
 			Project.transaction do
@@ -42,7 +33,7 @@ class Project < ActiveRecord::Base
 		return false, pr
 	end
 
-	def self.update( id, params, tasks_to_remove, people_remove, people_to_add, user)
+	def self.update( id, params, tasks_to_remove, people_remove, people_to_add, user) # TODO test
 		# TODO check if admin
 		begin
 			Project.transaction do

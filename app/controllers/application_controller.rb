@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 		@user = User.find(c.session[:user]) unless c.session[:user].nil?
 		@user ||= User.find(0)
 		# TODO skip this for api calls
-		@task_list = Task.where( "person_responsible_id = ?", @user.id)
+		@task_list = @user.tasks_to_do
 		@task_count = @task_list.length
 
 		@data_page_type = :dashboard

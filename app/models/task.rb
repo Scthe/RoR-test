@@ -38,26 +38,22 @@ class Task < ActiveRecord::Base
 
 	def self.find_( task_id, user)
 		task = find(task_id)
-		raise ActiveRecord::RecordNotFound unless task.send( :can_be_viewed_by, user) # TODO send ?!
+		raise ActiveRecord::RecordNotFound unless user.member_of?(task.project.id)
 		task
 	end
 
-	def self.create(params, user)
+	def self.create(params, user) # TODO test
 		t = Task.new( clean_params(params))
 		t[:created_by_id] = user.id
 		return t.save, t
 	end
 
-	def self.update( id, params, user)
+	def self.update( id, params, user) # TODO test
 		t = Task.find_( id, user)
 		return t.update( clean_params_edit(params)), t
 	end
 
 	private
-	def can_be_viewed_by( user)
-		Project.can_be_viewed_by( self.project.id, user)
-	end
-
 	def self.clean_params(params)
 		params.permit( :title, :task_type, :deadline, :description, :project_id, :person_responsible_id)
 	end

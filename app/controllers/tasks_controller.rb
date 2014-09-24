@@ -81,7 +81,7 @@ class TasksController < ApplicationController
 		end
 	end
 
-	def add_comment
+	def add_comment # TODO add comment
 		respond_to do |format|
 			format.json { render json: { :msg => 'comment add !' }.to_json}
 		end

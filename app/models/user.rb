@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
 	FEMALE 	= { :value => 1, :display_name => "Female"}
 	
 	has_many :projects, :through => :project_persons
-	has_many :tasks_to_do, :class_name => "Task", :foreign_key => "person_responsible"
+	has_many :project_persons
+	has_many :tasks_to_do, :class_name => "Task", :foreign_key => "person_responsible_id"
 
 	validates :username, uniqueness: true, presence: true, length: { minimum: 3}, format: { with: /\A[0-9A-Za-z_]+\Z/i, message: "letters/numbers !" }
 	validates :firstname, allow_blank: true, length: { minimum: 2}, format: { with: /\A[A-Za-z_ ]+\Z/i, message: "letters !" }
@@ -20,9 +21,10 @@ class User < ActiveRecord::Base
 =end
 
 	def to_s
-		n = firstname
-		n ||= username
-		l = lastname
-		if l.nil? then n else n + " " + l end
+		if firstname.nil? or lastname.nil? then username else firstname + " " + lastname end
+	end
+
+	def member_of?( project_id)
+		ProjectPerson.exists?( { :user_id => self.id, :project_id => project_id})
 	end
 end
