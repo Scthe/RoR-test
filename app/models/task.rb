@@ -42,13 +42,13 @@ class Task < ActiveRecord::Base
 		task
 	end
 
-	def self.create(params, user)
+	def self.create(params, user) # TODO test
 		t = Task.new( clean_params(params))
 		t[:created_by_id] = user.id
 		return t.save, t
 	end
 
-	def self.update( id, params, user)
+	def self.update( id, params, user) # TODO test
 		t = Task.find_( id, user)
 		return t.update( clean_params_edit(params)), t
 	end

@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
 		find(project_id)
 	end
 
-	def self.create(params, user)
+	def self.create(params, user) # TODO test
 		pr = Project.new( clean_params(params))
 		begin
 			Project.transaction do
@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
 		return false, pr
 	end
 
-	def self.update( id, params, tasks_to_remove, people_remove, people_to_add, user)
+	def self.update( id, params, tasks_to_remove, people_remove, people_to_add, user) # TODO test
 		# TODO check if admin
 		begin
 			Project.transaction do
