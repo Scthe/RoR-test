@@ -17,3 +17,6 @@
 
 # m
 public/assets/*
+.vagrant/*
+chef/cookbooks/*
+chef/tmp/*
