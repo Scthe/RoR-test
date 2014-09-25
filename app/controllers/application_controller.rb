@@ -47,6 +47,19 @@ class ApplicationController < ActionController::Base
 
 =begin
 
+cmds:
+librarian-chef install
+vagrant plugin install vagrant-omnibus
+vagrant reload --provision
+vagrant halt
+
+bundle exec rspec spec
+bundle exec spring
+bundle exec spring binstub rspec
+bundle exec spring rspec spec
+bundle exec spring stop
+
+
 http://stackoverflow.com/questions/3992659/in-rails-what-exactly-do-helper-and-helper-method-do
 
 In case of 'not [:id] provided just add field :id to the object'
