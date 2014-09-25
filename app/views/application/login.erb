@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>app</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+
+    <!-- Style sheets -->
+    <%= stylesheet_link_tag    "login", :media => "all" %>
+	<%= stylesheet_link_tag    'bootstrap', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+</head>
+	
+<body id="page-background">
+	<div id="login-dialog" class="dialog">
+		
+		<header id="login-logo">
+			<span class="glyphicon glyphicon-tint"></span>
+		</header>
+		
+		<%= form_for @login, :url => {:action => "login"},:html => { :id => "login_form" } do |f| %>
+
+			<%= f.text_field :username, { :class => "login_ctr", :id => "username", :placeholder=>"username"} %>
+			<%= f.password_field :password, { :class => "login_ctr", :id => "password", :placeholder=>"password"} %>
+			
+			<p id="password-forgot" class="clearfix">forgot your password ?</p>
+			
+			 <%= f.button :submit, { :id => "login", :class => "login_ctr accept" } do %>
+			 	<span class="glyphicon glyphicon-ok"></span>
+			 <% end %>
+		<% end %>
+
+		<p id="register-hint">Not a member ?
+			<span id="sign-up">Sign up now</span>
+		</p>
+		
+		<div id="register-dialog" class="dialog">
+			<span id="register-close" class="glyphicon glyphicon-remove"></span>
+
+			<header id="register-title">
+			Create an account
+			</header>
+
+			<%= form_for @sign_up, :url => {:action => "login"},:html => { :id => "register_form" } do |f| %>
+				<%= f.text_field :username, { :class => "login_ctr", :id => "register-username", :placeholder=>"username"} %>
+				<%= f.text_field :email, { :class => "login_ctr", :id => "register-email", :placeholder=>"Your email address"} %>
+
+				<%= f.password_field :password, { :class => "login_ctr", :id => "register-password", :placeholder=>"password"} %>
+				<%= f.password_field :password2, { :class => "login_ctr", :id => "register-password2", :placeholder=>"re-enter password"} %>
+				
+				 <%= f.button :submit, { :id => "register", :class => "login_ctr accept" } do %>
+				 	<span class="glyphicon glyphicon-ok"></span>
+				 <% end %>
+			<% end %>
+			
+		</div>
+		
+	<!--page content end-->
+	</div>
+	
+	<script>
+		
+	$('document').ready(function(){
+		$("#sign-up").click(function(e){
+			$('#login-dialog').addClass('login-overlay');
+			$("#register-dialog").show();
+		});	
+		
+		$("#register-close").click(function(e){
+			$('#login-dialog').removeClass('login-overlay');
+			$("#register-dialog").hide();
+		});
+	});
+		
+	</script>
+</body>
+
+</html>

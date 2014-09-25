@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
 
+  root 'application#login'
   get 'settings' => 'application#settings'
   get 'logout' => 'application#logout'
+  get 'dashboard' => 'application#index'
 
   resources :projects
   resources :tasks
   resources :users
 
-  root 'application#index'
 
   post 'tasks/:id/add_comment' => 'tasks#add_comment', as: :add_comment
 

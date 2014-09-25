@@ -18,16 +18,16 @@ class ApplicationController < ActionController::Base
 	def index
 		# TODO root => login page
 		# TODO heroku
-		# 
+		#
 		# TODO integration tests
 		# TODO task create - should have some better reference to project ( use url)
 		# TODO partial views
 		# TODO add comments as inner resource for task
-		# 
+		#
 		# TODO check CSRF tokens with REST api
 		# TODO use jade
 		# TODO add languages using some gem
-		
+
 	end
 
 	def settings
@@ -37,6 +37,13 @@ class ApplicationController < ActionController::Base
 		redirect_to "/"
 	end
 
+	def login
+		@login = LoginForm.new
+		@sign_up = SignUpForm.new
+		render layout: false
+	end
+
+	protected
 	def self.set_page_type( t)
 		# TODO move to separat module
 		allowed = [:dashboard, :projects, :tasks]
