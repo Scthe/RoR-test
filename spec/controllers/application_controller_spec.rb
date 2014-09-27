@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ApplicationController, :type => :controller do
 
+	login_user
+
 	describe "smoke tests" do
 
 		it "should get index" do

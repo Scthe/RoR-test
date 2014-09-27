@@ -2,14 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, :type => :controller do
 
+	login_user
+
 	before(:each) do
-		@project_a = build(:project_a)
-		@project_b = build(:project_b)
-		@projects = [ @project_a, @project_b]
-
-		@user = double member_of?: true, id: 1, projects: @projects, tasks_to_do: []
-		controller.instance_variable_set(:@user, @user)
-
 		@project = double destroy: nil
 	end
 
@@ -23,18 +18,18 @@ RSpec.describe ProjectsController, :type => :controller do
 			expect(response).to render_template("index")
 			expect(response).to render_template("layouts/application")
 
-			expect(assigns(:projects)).to eq(@projects)
+			expect(assigns(:projects)).to be_truthy
 		end
 
 		it "should get show" do
-			allow(Project).to receive(:find_).and_return(@project_a)
+			allow(Project).to receive(:find_).and_return(@project)
 			get :show, id: 0
 			expect(response).to be_success
 			expect(response).to have_http_status(200)
 
 			expect(response).to render_template("projects/show")
 			expect(response).to render_template("layouts/application")
-			expect(assigns(:project)).to eq(@project_a)
+			expect(assigns(:project)).to eq(@project)
 		end
 
 		it "should get edit" do
@@ -68,7 +63,7 @@ RSpec.describe ProjectsController, :type => :controller do
 			end
 
 			it "should 403 if user is not memeber of the project - show" do
-				expect(@user).to receive(:member_of?).and_return( false)
+				allow(controller.current_user).to receive(:member_of?).and_return( false)
 				get :show, id: 0
 				expect(response).to have_http_status(403)
 			end
@@ -82,7 +77,7 @@ RSpec.describe ProjectsController, :type => :controller do
 			end
 
 			it "should 403 if user is not memeber of the project - edit" do
-				expect(@user).to receive(:member_of?).and_return( false)
+				allow(controller.current_user).to receive(:member_of?).and_return( false)
 				get :edit, id: 0
 				expect(response).to have_http_status(403)
 			end
@@ -93,17 +88,17 @@ RSpec.describe ProjectsController, :type => :controller do
 
 		describe "create" do
 			it "should return created project" do
-				@project_a.id = 134
-				r = true, @project_a
+				p = build(:project_a, id: 1234)
+				r = true, p
 				expect(Project).to receive(:create).and_return( r)
 
 				@request.headers["Accept"] = "application/json"
 				post :create
 
-				url = controller.url_for( project_path (@project_a) )
+				url = controller.url_for( project_path (p) )
 				body = JSON.parse(response.body)
 
-				expect(body["name"]).to eq(@project_a.name)
+				expect(body["name"]).to eq(p.name)
 				expect(body["url"]).to eq(url)
 
 				expect(response).to have_http_status(201)
@@ -126,12 +121,12 @@ RSpec.describe ProjectsController, :type => :controller do
 
 		describe "update" do
 			it "should return status ok for correct data" do
-				@project_a.id = 134
-				r = true, @project_a
+				p = build(:project_a, id: 1234)
+				r = true, p
 				expect(Project).to receive(:update).and_return( r)
 
 				h = {
-					:id => @project_a.id,
+					:id => p.id,
 					:tasksToRemove => "[]",
 					:peopleToRemove => "[]",
 				:peopleToAdd => "[]" }
@@ -139,23 +134,22 @@ RSpec.describe ProjectsController, :type => :controller do
 				@request.headers["Accept"] = "application/json"
 				put :update, h
 
-				url = controller.url_for( project_path (@project_a) )
+				url = controller.url_for( project_path (p) )
 				body = JSON.parse(response.body)
 
-				expect(body["name"]).to eq(@project_a.name)
+				expect(body["name"]).to eq(p.name)
 				expect(body["url"]).to eq(url)
 
 				expect(response).to have_http_status(200)
 			end
 
 			it "should not update on incorrect data" do
-				@project_a.id = 134
 				l = { "a" => 1, "b" => 2}
 				r = false, (double errors: l)
 				expect(Project).to receive(:update).and_return( r)
 
 				h = {
-					:id => @project_a.id,
+					:id => 1234,
 					:tasksToRemove => "[]",
 					:peopleToRemove => "[]",
 				:peopleToAdd => "[]" }
@@ -171,11 +165,10 @@ RSpec.describe ProjectsController, :type => :controller do
 			end
 
 			it "should not update not existing project" do
-				@project_a.id = 134
 				expect(Project).to receive(:update).and_raise( ActiveRecord::RecordNotFound)
 
 				h = {
-					:id => @project_a.id,
+					:id => 1234,
 					:tasksToRemove => "[]",
 					:peopleToRemove => "[]",
 				:peopleToAdd => "[]" }
@@ -190,12 +183,11 @@ RSpec.describe ProjectsController, :type => :controller do
 			end
 
 			it "should raise error on not parseable id arrays" do
-				@project_a.id = 134
 				r = true, @project_a
 				allow(Project).to receive(:update).and_return( r)
 
 				@request.headers["Accept"] = "application/json"
-				put :update, id: @project_a.id
+				put :update, id: 1234
 
 				body = JSON.parse(response.body)
 				expect(body.include? "url").to be_falsy
