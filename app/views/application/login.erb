@@ -8,10 +8,11 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 
-    <!-- Style sheets -->
-    <%= stylesheet_link_tag    "login", :media => "all" %>
+	<!-- Style sheets -->
+	<%= stylesheet_link_tag    "login", :media => "all" %>
 	<%= stylesheet_link_tag    'bootstrap', media: 'all', 'data-turbolinks-track' => true %>
 	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
 </head>
 	
 <body id="page-background">
@@ -21,15 +22,15 @@
 			<span class="glyphicon glyphicon-tint"></span>
 		</header>
 		
-		<%= form_for @login, :url => {:action => "login"},:html => { :id => "login_form" } do |f| %>
+		<%= form_for User.new, :url => {:action => "login"},:html => { :id => "login_form" } do |f| %>
 
-			<%= f.text_field :username, { :class => "login_ctr", :id => "username", :placeholder=>"username"} %>
-			<%= f.password_field :password, { :class => "login_ctr", :id => "password", :placeholder=>"password"} %>
+			<%= f.text_field :username, { :class => "login_ctr form-control", :id => "username", :placeholder=>"username"} %>
+			<%= f.password_field :password, { :class => "login_ctr form-control", :id => "password", :placeholder=>"password"} %>
 			
 			<p id="password-forgot" class="clearfix">forgot your password ?</p>
 			
 			 <%= f.button :submit, { :id => "login", :class => "login_ctr accept" } do %>
-			 	<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-ok"></span>
 			 <% end %>
 		<% end %>
 
@@ -44,15 +45,15 @@
 			Create an account
 			</header>
 
-			<%= form_for @sign_up, :url => {:action => "login"},:html => { :id => "register_form" } do |f| %>
-				<%= f.text_field :username, { :class => "login_ctr", :id => "register-username", :placeholder=>"username"} %>
-				<%= f.text_field :email, { :class => "login_ctr", :id => "register-email", :placeholder=>"Your email address"} %>
+			<%= form_for User.new, :url => {:action => "login"},:html => { :id => "register_form" } do |f| %>
+				<%= f.text_field :username, { :class => "login_ctr form-control", :id => "register-username", :placeholder=>"username"} %>
+				<%= f.email_field :email, { :class => "login_ctr form-control", :id => "register-email", :placeholder=>"Your email address"} %>
 
-				<%= f.password_field :password, { :class => "login_ctr", :id => "register-password", :placeholder=>"password"} %>
-				<%= f.password_field :password2, { :class => "login_ctr", :id => "register-password2", :placeholder=>"re-enter password"} %>
+				<%= f.password_field :password, { :class => "login_ctr form-control", :id => "register-password", :placeholder=>"password"} %>
+				<%= f.password_field :password_confirmation, { :class => "login_ctr form-control", :id => "register-password2", :placeholder=>"re-enter password"} %>
 				
 				 <%= f.button :submit, { :id => "register", :class => "login_ctr accept" } do %>
-				 	<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-ok"></span>
 				 <% end %>
 			<% end %>
 			
@@ -62,7 +63,43 @@
 	</div>
 	
 	<script>
-		
+	
+	function sign_in(url){
+		var d = $('#login_form').serialize(); // get the form data
+
+		$.ajax(url, {
+			data: d,
+			type: 'POST',
+			success: function(json) {
+				console.log('ok! > \'' + JSON.stringify(json) + '\'');
+				window.location = json.url;
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				var json = xhr.responseJSON;
+				// console.log('FAIL! > \'' + JSON.stringify(json) + '\'');
+				$("#login_form").addClass("has-error");
+			}
+		});
+	}
+
+	function sign_up(url){
+		var d = $('#register_form').serialize();
+
+		$.ajax(url, {
+			data: d,
+			type: 'POST',
+			success: function(json) {
+				// console.log('ok! > \'' + JSON.stringify(json) + '\'');
+				window.location = json.url;
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				var json = xhr.responseJSON;
+				// console.log('FAIL! > \'' + JSON.stringify(json) + '\'');
+				$("#login_form").addClass("has-error");
+			}
+		});
+	}
+
 	$('document').ready(function(){
 		$("#sign-up").click(function(e){
 			$('#login-dialog').addClass('login-overlay');
@@ -73,8 +110,21 @@
 			$('#login-dialog').removeClass('login-overlay');
 			$("#register-dialog").hide();
 		});
-	});
-		
+
+		$('#login_form').submit(function(event) {
+			event.preventDefault();
+			url = "<%= url_for session_path(resource_name) %>";
+			sign_in(url);
+		});
+
+		$('#register_form').submit(function(event) {
+			event.preventDefault();
+			url = "<%= url_for user_registration_path(resource_name) %>";
+			sign_up(url);
+		});
+	
+	}); // end document.ready
+
 	</script>
 </body>
 

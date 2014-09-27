@@ -4,13 +4,12 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery with: :exception
 
 	before_filter do |c|
-		# TODO handle better f.e. require_login :index, :show etc. Use separate module in /lib
-
-		@user = User.find(c.session[:user]) unless c.session[:user].nil?
-		@user ||= User.find(0)
-		# TODO skip this for api calls
-		@task_list = @user.tasks_to_do
-		@task_count = @task_list.length
+		unless current_user.nil?
+			# TODO skip this for api calls
+			@user = current_user
+			@task_list = @user.tasks_to_do
+			@task_count = @task_list.length
+		end
 
 		@data_page_type = :dashboard
 	end
@@ -38,6 +37,8 @@ class ApplicationController < ActionController::Base
 	end
 
 	def login
+		# TODO force https
+		# TODO utilize specialized form models
 		@login = LoginForm.new
 		@sign_up = SignUpForm.new
 		render layout: false
