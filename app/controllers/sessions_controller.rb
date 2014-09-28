@@ -1,11 +1,11 @@
 class SessionsController < Devise::SessionsController
 
-	# protect_from_forgery with: :null_session
+	protect_from_forgery with: :null_session
 	
 	# per:
 	# http://stackoverflow.com/questions/20875591/actioncontrollerinvalidauthenticitytoken-in-registrationscontrollercreate
 	# https://github.com/plataformatec/devise/issues/2432#issuecomment-18973236
-	skip_before_filter :verify_authenticity_token, :only => :create
+	# skip_before_filter :verify_authenticity_token, :only => :create
 
 	# POST /users/sign_in
 	def create

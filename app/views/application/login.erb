@@ -72,7 +72,11 @@
 			type: 'POST',
 			success: function(json) {
 				console.log('ok! > \'' + JSON.stringify(json) + '\'');
-				window.location = json.url;
+				if(json.success){
+					window.location = json.url;
+				} else{
+					$("#login_form").addClass("has-error");
+				}
 			},
 			error: function(xhr, textStatus, errorThrown) {
 				var json = xhr.responseJSON;
@@ -89,8 +93,12 @@
 			data: d,
 			type: 'POST',
 			success: function(json) {
-				// console.log('ok! > \'' + JSON.stringify(json) + '\'');
-				window.location = json.url;
+				console.log('ok! > \'' + JSON.stringify(json) + '\'');
+				if(json.success){
+					window.location = json.url;
+				} else{
+					$("#login_form").addClass("has-error");
+				}
 			},
 			error: function(xhr, textStatus, errorThrown) {
 				var json = xhr.responseJSON;

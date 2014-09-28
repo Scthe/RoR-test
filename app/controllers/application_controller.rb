@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
 	def index
 		# TODO root => login page
-		# TODO heroku
+		# TODO heroku & capistrano
 		#
 		# TODO integration tests
 		# TODO task create - should have some better reference to project ( use url)
@@ -27,6 +27,11 @@ class ApplicationController < ActionController::Base
 		# TODO use jade
 		# TODO add languages using some gem
 
+		# scenarios:
+		# * login fail, refresh, login ok
+		# * register, log out, log in
+		# * check all urls if they go to /login
+		# * different passwords in fields
 	end
 
 	def settings

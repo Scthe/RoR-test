@@ -45,4 +45,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'spring-commands-rspec'
+  gem 'capybara'
+  gem 'poltergeist'
+  gem 'launchy'
 end
