@@ -52,4 +52,9 @@ RSpec.configure do |config|
   # Devise
   config.include Devise::TestHelpers, :type => :controller
   config.extend DeviseMacros, :type => :controller
+
+  # clean database after all feature tests
+  config.after(:all, :type => :feature) do
+    DatabaseCleaner.clean_with :truncation
+  end
 end

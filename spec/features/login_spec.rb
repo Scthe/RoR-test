@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe "login process", :type => :feature do
 
 	it "allows me to register", :js => true do
-		# TODO why this test can be executed only once ?
-
 		visit '/'
 
 		find('#sign-up').click
