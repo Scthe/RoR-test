@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
 		# * register, log out, log in
 		# * check all urls if they go to /login
 		# * different passwords in fields
+		# if already logged should go to dashboard
 	end
 
 	def settings

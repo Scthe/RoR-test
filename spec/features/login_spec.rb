@@ -1,4 +1,5 @@
 require 'rails_helper'
+include Warden::Test::Helpers
 
 RSpec.describe "login process", :type => :feature do
 
@@ -21,7 +22,18 @@ RSpec.describe "login process", :type => :feature do
 		expect(page).to have_content 'Dashboard'
 	end
 
-	# it "signs me in" do
-	# end
+	it "signs me in", :js do
+		visit '/'
+		user = create(:user_a)
+
+		within find('#login_form') do
+			fill_in 'user[username]', with: user.username
+			fill_in 'user[password]', with: user.password
+
+			d = find '#login'
+			d.click
+		end
+		expect(page).to have_content 'Dashboard'
+	end
 
 end
