@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
 
 		return redirect_to dashboard_path if user_signed_in?
 
-		@login = LoginForm.new
+		# @login = LoginForm.new # TODO not used
 		@sign_up = SignUpForm.new
 		render layout: false
 	end

@@ -1,0 +1,11 @@
+<%= form_for User.new, :url => {:action => "login"},:html => { :id => "login_form" } do |f| %>
+
+	<%= f.text_field :username, { :class => "login_ctr form-control", :id => "username", :placeholder=>"username"} %>
+	<%= f.password_field :password, { :class => "login_ctr form-control", :id => "password", :placeholder=>"password"} %>
+	
+	<p id="password-forgot" class="clearfix">forgot your password ?</p>
+	
+	 <%= f.button :submit, { :id => "login", :class => "login_ctr accept" } do %>
+		<span class="glyphicon glyphicon-ok"></span>
+	 <% end %>
+<% end %>

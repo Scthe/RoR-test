@@ -1,0 +1,20 @@
+<div id="register-dialog" class="dialog">
+	<span id="register-close" class="glyphicon glyphicon-remove"></span>
+
+	<header id="register-title">
+	Create an account
+	</header>
+
+	<%= form_for @sign_up, :url => {:action => "login"},:html => { :id => "register_form" } do |f| %>
+		<%= f.text_field :username, { :class => "login_ctr form-control", :id => "register-username", :placeholder=>"username"} %>
+		<%= f.email_field :email, { :class => "login_ctr form-control", :id => "register-email", :placeholder=>"Your email address"} %>
+
+		<%= f.password_field :password, { :class => "login_ctr form-control", :id => "register-password", :placeholder=>"password"} %>
+		<%= f.password_field :password_confirmation, { :class => "login_ctr form-control", :id => "register-password2", :placeholder=>"re-enter password"} %>
+		
+		 <%= f.button :submit, { :id => "register", :class => "login_ctr accept" } do %>
+			<span class="glyphicon glyphicon-ok"></span>
+		 <% end %>
+	<% end %>
+	
+</div>

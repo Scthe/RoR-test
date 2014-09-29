@@ -3,8 +3,8 @@ class RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token, :only => :create
 
   def create
-    params[:user].permit!
-    build_resource params[:user]
+    params[:sign_up_form].permit!
+    build_resource params[:sign_up_form]
 
     if resource.save
       if resource.active_for_authentication?
