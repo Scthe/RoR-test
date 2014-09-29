@@ -56,7 +56,6 @@ class ApplicationController < ActionController::Base
 
 # TODO heroku & capistrano
 # TODO logout
-# TODO partial views
 # TODO force https
 #
 # TODO integration tests

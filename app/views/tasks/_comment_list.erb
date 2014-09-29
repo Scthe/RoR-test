@@ -1,0 +1,22 @@
+<section class="comments-section">
+    <header data-translate="comments">Comments</header>
+    <ul id="comments-list">
+
+        <% @task.comments.each do |taskComment| %>
+            <li class="comments-list-item">
+                <b><%= taskComment.user %></b>
+                <span class="comments-time"><%= taskComment.created_at %></span>
+                <p><%= taskComment.text %></p>
+            </li>
+        <% end %>
+    </ul>
+
+    <% if @canAddComment %>
+        <%= form_for (TaskComment.new), :url => add_comment_path, :html => { :id => "comment-form" } do |p| %>
+            <%= p.text_area :text, { :class => "form-control", :id => "task-new-comment", :rows => "3", :placeholder => "Comment text..", :data_translate => "task_comment_default" } %>
+
+            <%= p.submit :submit, { :value => "Add comment", :class => "task-button pull-right", :data_translate => "add_comment" } %>
+        <% end %>
+    <% end %>
+    
+</section>
