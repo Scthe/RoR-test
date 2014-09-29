@@ -14,16 +14,9 @@ RSpec.describe User, :type => :model do
     end
 
     it "should not be valid with incorrect username" do
-      u = @user
-
-      u.username = nil
-      expect(u.valid?).to be false
-
-      u.username = "Aa"
-      expect(u.valid?).to be false
-
-      u.username = "UserAbc$"
-      expect(u.valid?).to be false
+      expect(build(:user_a, username:   nil).valid?).to be false
+      expect(build(:user_a, username:   "Aa").valid?).to be false
+      expect(build(:user_a, username:   "User$Abc").valid?).to be false
     end
 
     it "should allow blank first and lastname" do
@@ -34,21 +27,10 @@ RSpec.describe User, :type => :model do
     end
 
     it "should not be valid with incorrect first and lastname" do
-      u = @user
-      u.lastname = "a"
-      expect(u.valid?).to be false
-
-      u = @user
-      u.firstname = "a"
-      expect(u.valid?).to be false
-
-      u = @user
-      u.lastname = "Aaa9"
-      expect(u.valid?).to be false
-
-      u = @user
-      u.firstname = "Aaa9"
-      expect(u.valid?).to be false
+      expect(build(:user_a, lastname:      "a").valid?).to be false
+      expect(build(:user_a, lastname:   "Aa9a").valid?).to be false
+      expect(build(:user_a, firstname:     "a").valid?).to be false
+      expect(build(:user_a, firstname:  "Aa9a").valid?).to be false
     end
 
     it "gender should be valid only in 2 cases ( oh, wow !)" do
@@ -59,13 +41,16 @@ RSpec.describe User, :type => :model do
         2 => false
       }
       test.each do |k,v|
-        u = @user
-        u.gender = k
-        expect(u.valid?).to be v
+        expect(build(:user_a, gender:  k).valid?).to be v
       end
     end
 
+    it "should not require gender" do
+      expect(build(:user_a, gender:  nil).valid?).to be true
+    end
+
     # TODO validate email & password
+    #
   end
 
   it "should preety print name correctly" do

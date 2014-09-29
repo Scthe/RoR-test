@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
 
+	before_filter :authenticate_user!
 	set_page_type :tasks
 
 	def index
@@ -25,7 +26,7 @@ class TasksController < ApplicationController
 	end
 
 	def new
-		@project = Project.find(0)
+		@project = Project.find(0) # TODO TasksController#new should have project
 		@task = Task.new
 		@people_to_assign = @project.users
 	end

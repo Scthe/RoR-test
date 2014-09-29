@@ -21,3 +21,5 @@ module Tasker
     # config.i18n.default_locale = :de
   end
 end
+
+config.autoload_paths += %W(#{config.root}/app/form_models) if defined? config

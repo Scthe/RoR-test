@@ -11,3 +11,4 @@ cookbook 'sqlite'
 cookbook 'rbenv', :git => 'git://github.com/fnichol/chef-rbenv.git'#, :ref
 cookbook 'nodejs'
 #cookbook 'git'
+cookbook 'phantomjs', '= 1.0.2'

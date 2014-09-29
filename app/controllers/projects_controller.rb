@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
 
 	skip_before_filter :verify_authenticity_token, :only => :create
+	before_filter :authenticate_user!
 	set_page_type :projects
 
 	def index

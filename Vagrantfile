@@ -29,6 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "rbenv::system"
     chef.add_recipe "rbenv::vagrant"
     chef.add_recipe "nodejs"
+    chef.add_recipe 'phantomjs::default'
 
     chef.json = {
       rbenv: {
