@@ -32,7 +32,6 @@ class ApplicationController < ActionController::Base
 		# scenarios:
 		# * login fail, refresh, login ok
 		# * register, log out, log in
-		# if already logged should go to dashboard
 	end
 
 	def settings
@@ -45,6 +44,9 @@ class ApplicationController < ActionController::Base
 	def login
 		# TODO force https
 		# TODO utilize specialized form models
+
+		return redirect_to dashboard_path if user_signed_in?
+
 		@login = LoginForm.new
 		@sign_up = SignUpForm.new
 		render layout: false
