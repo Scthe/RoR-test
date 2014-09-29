@@ -1,0 +1,29 @@
+<tr data-task-id="<%= task.id %>">
+
+    <td class="tasks-cell tasks-col1">
+    </td>
+
+    <td class="tasks-cell tasks-col2">
+        <%= link_to task.title, task_path(task) %>
+    </td>
+
+    <td class="tasks-cell tasks-col3">
+        <% unless task.person_responsible.nil? %>
+            <%= link_to task.person_responsible, user_path(task.person_responsible) %>
+        <% else %>
+            <span data-translate="not_assigned">Not assigned yet</span>
+        <% end %>
+    </td>
+
+    <td class="tasks-cell tasks-col4"><%= task.deadline %></td>
+
+    <% if editable %>
+        <td class="tasks-cell tasks-col4 tasks-edit">
+            <%= link_to "Edit", edit_task_path(task) %>
+        </td>
+
+        <td class="tasks-cell tasks-col4 tasks-edit task-remove">
+           <span class="glyphicon glyphicon-remove"></span>
+        </td>
+    <% end %>
+</tr>

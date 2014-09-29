@@ -40,7 +40,7 @@
     
     <%= render :partial => "project_base_form", :locals=>{ p: p} %>
 
-    <%= render partial: "task_table", locals: {editable: true} %>
+    <%= render partial: "tasks/task_table", locals: { tasks: @project.tasks, editable: true, wrap: true} %>
 
     <%= render partial: "people", locals: {editable: true} %>
 

@@ -24,6 +24,6 @@
     <p><%= @project.description %></p>
 </section>
 
-<%= render partial: "task_table", locals: {editable: false} %>
+<%= render partial: "tasks/task_table", locals: { tasks: @project.tasks, editable: false, wrap: true} %>
 
 <%= render partial: "people", locals: {editable: false} %>
