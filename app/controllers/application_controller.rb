@@ -32,7 +32,6 @@ class ApplicationController < ActionController::Base
 		# scenarios:
 		# * login fail, refresh, login ok
 		# * register, log out, log in
-		# * different passwords in fields
 		# if already logged should go to dashboard
 	end
 

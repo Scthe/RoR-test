@@ -52,8 +52,25 @@ RSpec.describe "login process", :type => :feature do
 				visit s
 				expect(current_path).to eq('/')
 			end
-
 		end
+	end
 
+	it "checks if both passwords are the same", :js => true do
+		visit '/'
+
+		find('#sign-up').click
+		register_dialog = find('#register-dialog')
+		within register_dialog do
+			fill_in 'user[username]', :with => 'aaaa3'
+			fill_in 'user[email]', :with => 'a3@gmail.com'
+			fill_in 'user[password]', :with => 'aaaaa'
+			fill_in 'user[password_confirmation]', :with => 'aaaab'
+
+			d = find '#register'
+			d.click
+		end
+		uri = URI.parse(current_url)
+
+		expect(page).to have_content 'Sign up now'
 	end
 end
