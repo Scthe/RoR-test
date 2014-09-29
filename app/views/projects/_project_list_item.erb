@@ -1,0 +1,7 @@
+<%= link_to project_path(project) do %>
+    <li class="projects-list-item">
+        <h2><%= project.name %></h2>
+        <span><%= project.description[0..40] %></span>
+        <b><%= project.complete %>% complete</b>
+    </li>
+<% end %>

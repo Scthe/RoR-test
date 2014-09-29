@@ -1,0 +1,17 @@
+<section class="data-section">
+
+    <% if editable %>
+        <div id="view-header-right" class="clearfix">
+            <div id="person-add" class="project-button">
+                <span class="glyphicon glyphicon-plus" ></span>
+                <span data-translate="add_project_person">add new person</span>
+            </div>
+        </div>
+    <% end %>
+
+    <header class="clearfix" data-translate="project_people">People</header>
+    
+    <ul id="people-list" class="clearfix">
+        <%= render partial: "person", collection: @project.users, as: :person, locals: {editable: editable} %>
+    </ul>
+</section>

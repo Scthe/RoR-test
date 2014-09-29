@@ -1,0 +1,22 @@
+<section class="data-section">
+    <%= p.label :name, { :data_translate => "name"} %>
+    <%= p.text_field :name, { :class => "form-control", :id => "id_name", :placeholder=>"Name.."} %>
+</section>
+
+
+<section class="data-section">
+    <%= p.label :complete, "Completion status", { :data_translate => "complete_status" } %>
+    
+    <% a = if @project.complete.nil? then 50 else @project.complete end %>
+   
+   <input id="__id_complete" name="__complete" data-slider-id='completionSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="<%= a %>"/>
+
+    <span style="font-weight: 800" id="completion-slider-val"><%= a %>% complete</span>
+    <%# real input field %>
+    <%= p.text_field :complete, { :id => "id_abc", :value =>"50", :style => "display:none", value: a  } %>
+</section>
+
+<section class="data-section">
+    <%= p.label :description, { :data_translate => "description"} %>
+    <%= p.text_area :description, { :class => "form-control", :id => "id_description", :rows => "3", :placeholder => "Add description.."} %>
+</section>

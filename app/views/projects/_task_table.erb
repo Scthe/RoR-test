@@ -1,0 +1,55 @@
+<section class="data-section">
+
+    <div id="view-header-right">
+        <%= link_to new_task_path do %>
+        <div id="task-create" class="project-button">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span data-translate="task_add">add new task</span>
+        </div>
+        <% end %>
+    </div>
+
+    <header class="clearfix" data-translate="my_tasks">Tasks</header>
+    
+    <table id="tasks-table">
+        <tr>
+            <th class="tasks-cell tasks-col1" data-translate="active">Active</th>
+            <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
+            <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
+            <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
+        </tr>
+
+        <% @project.tasks.each do |task| %>
+        <tr data-task-id="<%= task.id %>">
+
+            <td class="tasks-cell tasks-col1">
+            </td>
+
+            <td class="tasks-cell tasks-col2">
+                <%= link_to task.title, task_path(task) %>
+            </td>
+
+            <td class="tasks-cell tasks-col3">
+                <% unless task.person_responsible.nil? %>
+                    <%= link_to task.person_responsible, user_path(task.person_responsible) %>
+                <% else %>
+                    <span data-translate="not_assigned">Not assigned yet</span>
+                <% end %>
+            </td>
+
+            <td class="tasks-cell tasks-col4"><%= task.deadline %></td>
+
+            <% if editable %>
+            <td class="tasks-cell tasks-col4 tasks-edit">
+                <%= link_to "Edit", edit_task_path(task) %>
+            </td>
+
+            <td class="tasks-cell tasks-col4 tasks-edit task-remove">
+               <span class="glyphicon glyphicon-remove"></span>
+            </td>
+            <% end %>
+        </tr>
+        <% end %>
+
+    </table>
+</section>

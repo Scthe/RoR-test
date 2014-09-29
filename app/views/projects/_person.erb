@@ -1,0 +1,10 @@
+<li class="people-list-item" data-person-id="<%= person.id %>">
+    <% if editable %>
+        <p class="person-remove remove-button">
+            <span class="glyphicon glyphicon-remove"></span>
+        <p>
+    <% end %>
+
+    <%= image_tag "avatar2.jpg" %>
+    <%= person %>
+</li>

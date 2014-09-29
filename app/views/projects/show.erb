@@ -13,7 +13,8 @@
 
 <% content_for :title_right do %>
    <h2>
-   <%= @project.complete %>%&nbsp;<span data-translate="complete">complete</span>
+    <%= @project.complete %>%&nbsp;
+    <span data-translate="complete">complete</span>
    </h2>
 <% end %>
 
@@ -23,81 +24,6 @@
     <p><%= @project.description %></p>
 </section>
 
-<section class="data-section">
-    <div id="view-header-right">
-        <%= link_to new_task_path do %>
-        <span class="glyphicon glyphicon-plus"></span>
-        add new task
-        <% end %>
-    </div>
-    <header class="clearfix" data-translate="tasks">Tasks</header>
+<%= render partial: "task_table", locals: {editable: false} %>
 
-    <table id="tasks-table">
-        <tr>
-            <th class="tasks-cell tasks-col1" data-translate="active">Active</th>
-            <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
-            <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
-            <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
-        </tr>
-
-        <% @project.tasks.each do |task| %>
-        <tr>
-            <td class="tasks-cell tasks-col1"></td>
-            <td class="tasks-cell tasks-col2">
-                <%= link_to task.title, task_path(task) %>
-            </td>
-            <td class="tasks-cell tasks-col3">
-              <% unless task.person_responsible.nil? %>
-                    <%= link_to task.person_responsible, user_path(task.person_responsible) %>
-              <% else %>
-                  <span data-translate="not_assigned">Not assigned yet</span>
-              <% end %>
-            </td>
-            <td class="tasks-cell tasks-col4"><%= task.deadline %></td>
-        </tr>
-        <% end %>
-    </table>
-</section>
-
-<section class="data-section">
-    <header data-translate="project_people">People</header>
-    <ul id="people-list" class="clearfix">
-        <% @project.users.each do |person| %>
-        <li class="people-list-item">
-            <%= link_to user_path(person) do %>
-                <%= image_tag "avatar2.jpg" %>
-                <%= person %>
-            <% end %>
-        </li>
-        <% end %>
-    </ul>
-</section>
-
-<%#
-<section class="data-section">
-    <header data-translate="files">Files</header>
-    <ul id="files-list" class="clearfix">
-
-        {% for file in project.files %}
-        <li class="files-list-item" data-type="{{file.type|lower}}">
-                <!--icon-->
-                {% if file.type == "Document" %}
-                    <span class="glyphicon glyphicon-file"></span>
-                {% else %}
-                    {% if file.type == "Image" %}
-                        <span class="glyphicon glyphicon-camera"></span>
-                    {% else %}
-                        {% if file.type == "Sound" %}
-                            <span class="glyphicon glyphicon-music"></span>
-                        {% else %}
-                            <span class="glyphicon glyphicon-paperclip"></span>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-
-                <b>_{{ file.name }}_</b>
-        </li>
-        {% endfor %}
-    </ul>
-</section>
-%>
+<%= render partial: "people", locals: {editable: false} %>

@@ -8,7 +8,7 @@
 
 <% content_for :title_right do %>
     <%= link_to new_project_path do %>
-    	<div id="project-create">
+        <div id="project-create">
             <span class="glyphicon glyphicon-plus"></span>
             <span data-translate="project_add">add new project</span>
         </div>
@@ -17,15 +17,5 @@
 
 
 <ul id="projects-list" class="main-panel-content">
-    
-    <% @projects.each do |project| %>
-        <%= link_to project_path(project) do %>
-        <li class="projects-list-item">
-            <h2><%= project.name %></h2>
-            <span><%= project.description[0..40] %></span>
-            <b><%= project.complete %>% complete</b>
-        </li>
-        <% end %>
-    <% end %>
-
+    <%= render partial: "project_list_item", collection: @projects, as: :project %>
 </ul>
