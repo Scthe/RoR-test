@@ -36,4 +36,24 @@ RSpec.describe "login process", :type => :feature do
 		expect(page).to have_content 'Dashboard'
 	end
 
+	it "requires being logged in before accessing sites" do
+		skip_urls = [ '/', '/assets', '/users/[spce0-9]+.*']
+		skip_urls = skip_urls.map{ |e| Regexp.new "^#{e}$" }
+
+		routes = Rails.application.routes.routes
+
+		routes.each do |route|
+			r = route.path.spec.to_s
+			s = r.gsub( /\(?\.:format\)?/, '') # remove :format
+			s.gsub!( /:id/, 1.to_s) # add :id if needed
+
+			if route.verb.to_s =~ /GET/ && skip_urls.find{ |e| s =~ e} .nil?
+				# p "#{route.verb} #{s}"
+				visit s
+				expect(current_path).to eq('/')
+			end
+
+		end
+
+	end
 end

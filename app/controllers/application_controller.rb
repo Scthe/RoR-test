@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 	# For APIs, you may want to use :null_session instead.
 	protect_from_forgery with: :exception
 
+	before_filter      :authenticate_user!, :only => [ :index, :settings, :logout, :settings]
+
 	before_filter do |c|
 		unless current_user.nil?
 			# TODO skip this for api calls
@@ -15,7 +17,6 @@ class ApplicationController < ActionController::Base
 	end
 
 	def index
-		# TODO root => login page
 		# TODO heroku & capistrano
 		#
 		# TODO integration tests
@@ -26,11 +27,11 @@ class ApplicationController < ActionController::Base
 		# TODO check CSRF tokens with REST api
 		# TODO use jade
 		# TODO add languages using some gem
+		# TODO global handlers: rescue_from ActiveRecord::RecordNotFound do |e|;error_response(message: e.message, status: 404);end
 
 		# scenarios:
 		# * login fail, refresh, login ok
 		# * register, log out, log in
-		# * check all urls if they go to /login
 		# * different passwords in fields
 		# if already logged should go to dashboard
 	end
@@ -56,6 +57,15 @@ class ApplicationController < ActionController::Base
 		allowed = [:dashboard, :projects, :tasks]
 		before_filter do |c|
 			@data_page_type = t if allowed.include? t
+		end
+	end
+
+	def authenticate_user!
+		if user_signed_in?
+			super
+		else
+			## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+			redirect_to login_path
 		end
 	end
 

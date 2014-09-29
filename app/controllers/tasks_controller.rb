@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
 
+	before_filter :authenticate_user!
 	set_page_type :tasks
 
 	def index

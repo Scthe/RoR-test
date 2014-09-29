@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'application#login'
+  root 'application#login', as: :login
   get 'settings' => 'application#settings'
   get 'logout' => 'application#logout'
   get 'dashboard' => 'application#index', as: :dashboard
