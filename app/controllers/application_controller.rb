@@ -16,22 +16,7 @@ class ApplicationController < ActionController::Base
 		@data_page_type = :dashboard
 	end
 
-	def index
-		# TODO heroku & capistrano
-		#
-		# TODO integration tests
-		# TODO task create - should have some better reference to project ( use url)
-		# TODO partial views
-		# TODO add comments as inner resource for task
-		#
-		# TODO check CSRF tokens with REST api
-		# TODO use jade
-		# TODO add languages using some gem
-		# TODO global handlers: rescue_from ActiveRecord::RecordNotFound do |e|;error_response(message: e.message, status: 404);end
-
-		# scenarios:
-		# * login fail, refresh, login ok
-		# * register, log out, log in
+	def index # dashboard
 	end
 
 	def settings
@@ -42,12 +27,9 @@ class ApplicationController < ActionController::Base
 	end
 
 	def login
-		# TODO force https
-		# TODO utilize specialized form models
-
 		return redirect_to dashboard_path if user_signed_in?
 
-		@login = LoginForm.new
+		# @login = LoginForm.new # TODO not used
 		@sign_up = SignUpForm.new
 		render layout: false
 	end
@@ -71,6 +53,24 @@ class ApplicationController < ActionController::Base
 	end
 
 =begin
+
+# TODO heroku & capistrano
+# TODO logout
+# TODO force https
+#
+# TODO integration tests
+# TODO task create - should have some better reference to project ( use url)
+# TODO add comments as inner resource for task
+#
+# TODO check CSRF tokens with REST api
+# TODO use jade
+# TODO add languages using some gem
+# TODO global handlers: rescue_from ActiveRecord::RecordNotFound do |e|;error_response(message: e.message, status: 404);end
+
+# scenarios:
+# * login fail, refresh, login ok
+# * register, log out, log in
+
 
 cmds:
 librarian-chef install

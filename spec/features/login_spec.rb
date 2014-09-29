@@ -9,10 +9,10 @@ RSpec.describe "login process", :type => :feature do
 		find('#sign-up').click
 
 		within find('#register-dialog') do
-			fill_in 'user[username]', :with => 'aaaa3'
-			fill_in 'user[email]', :with => 'a3@gmail.com'
-			fill_in 'user[password]', :with => 'aaaaa'
-			fill_in 'user[password_confirmation]', :with => 'aaaaa'
+			fill_in 'sign_up_form[username]', :with => 'aaaa3'
+			fill_in 'sign_up_form[email]', :with => 'a3@gmail.com'
+			fill_in 'sign_up_form[password]', :with => 'aaaaa'
+			fill_in 'sign_up_form[password_confirmation]', :with => 'aaaaa'
 
 			d = find '#register'
 			d.click

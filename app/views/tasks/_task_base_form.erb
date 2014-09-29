@@ -1,0 +1,31 @@
+<section class="data-section">
+    <header data-translate="task_name">Name</header>
+    <%= t.text_field :title, { :class => "form-control", :id => "task-name", :placeholder=>"Name.." } %>
+</section>
+
+<section class="data-section">
+    <header data-translate="task_status">Status</header>
+        <select id="task-type" name="task[task_type]">
+            <% e = if @task.task_type_obj.nil? then {value: 1} else @task.task_type_obj end %>
+            
+            <% Task::TASK_TYPES_L.each do |a| %>
+                <% if a[:value] == e %>
+                    <option value="<%= a[:value] %>" selected="select<p></p>ed"><%= a[:display_name] %></option>
+                <% else %>
+                    <option value="<%= a[:value] %>"><%= a[:display_name] %></option>
+                <% end %>
+            <% end %>
+        </select>
+</section>
+<br />
+
+<section class="data-section">
+    <header data-translate="deadline">Deadline</header>
+    <input class="form-control" id="task-deadline" type="date" name="task[deadline]" value="<%= @task.deadline %>" style="max-width: 300px;">
+</section>
+
+<section class="data-section">
+    <header data-translate="description">Description</header>
+
+    <%= t.text_area :description, { :class => "form-control", :id => "project-note", :rows => "3", :placeholder => "Add description.."} %>
+</section>

@@ -28,33 +28,8 @@
 
     <section class="clearfix">
         <div class="left-cell">
-            <section class="data-section">
-                <header data-translate="task_name">Name</header>
-                <%= t.text_field :title, { :class => "form-control", :id => "task-name", :placeholder=>"Name.." } %>
-            </section>
-
-            <section class="data-section">
-                <header data-translate="task_status">Status</header>
-                    <select id="task-type" name="task[task_type]">
-                        <% Task::TASK_TYPES_L.each do |a| %>
-                            <option value="<%= a[:value] %>"><%= a[:display_name] %></option>
-                        <% end %>
-                    </select>
-            </section>
-            <br />
-
-            <section class="data-section">
-                <header data-translate="deadline">Deadline</header>
-                <input class="form-control" id="task-deadline" type="date" name="task[deadline]" value="<%= @task.deadline %>" style="max-width: 300px;">
-            </section>
-
-            <section class="data-section">
-                <header data-translate="description">Description</header>
-
-                <%= t.text_area :description, { :class => "form-control", :id => "project-note", :rows => "3", :placeholder => "Add description.."} %>
-            </section>
+            <%= render :partial => "task_base_form", :locals=>{ t: t} %>
         </div>
-
     </section>
 
     <!---->

@@ -1,0 +1,41 @@
+<ul id="details-list">
+
+    <% if all %>
+        <li class="details-list-item">
+            <p>
+                <b data-translate="assigned_to">Assigned to</b>
+                <br />
+                <span class="details-info">
+                    <% unless @task.person_responsible.nil? %>
+                        <%= link_to @task.person_responsible, user_path(@task.person_responsible) %>
+                      <% else %>
+                        <span data-translate="not_assigned">Not assigned yet</span>
+                    <% end %>
+                </span>
+            </p>
+        </li>
+
+        <li class="details-list-item">
+            <p><b data-translate="deadline">Deadline</b>
+            <br />
+            <span class="details-info"><%= @task.deadline %></span></p>
+        </li>
+    <% end %>
+
+    <li class="details-list-item">
+        <p><b data-translate="created_by">Created by</b>
+            <br />
+            <%# <a href="<% url 'public_profile' task.createdBy.id % >"> %>
+            <span class="details-info" style="color: #428bca !important;">
+                <%= link_to @task.created_by, user_path(@task.created_by) %>
+            </span>
+            </a>
+        </p>
+    </li>
+
+    <li class="details-list-item">
+        <p><b data-translate="created_date">Creation date</b>
+        <br />
+        <span class="details-info"><%= @task.created_at %></span></p>
+    </li>
+</ul>

@@ -1,0 +1,38 @@
+<!-- left panel with navigation buttons -->
+<div id="navigation-panel" class="left-panel-size ui-mid-gray ui-content-min-h">
+
+	<%= link_to dashboard_path do %>
+	<div data-page-type="dashboard" class="navigation-button">
+		<div id="color-strip-dashboard" class="navigation-button-color"></div>
+		<span class="glyphicon glyphicon-star navigation-panel-icon"></span>
+		<label data-translate="dashboard">Dashboard</label>
+	</div>
+	<% end %>
+
+	<%= link_to projects_path do %>
+	<div data-page-type="projects" class="navigation-button">
+		<div id="color-strip-projects" class="navigation-button-color"></div>
+		<span class="glyphicon glyphicon-folder-open navigation-panel-icon"></span>
+		<label data-translate="my_projects">My projects</label>
+	</div>
+	<% end %>
+
+	<%= link_to tasks_path do %>
+	<div data-page-type="tasks" class="navigation-button">
+		<div id="color-strip-tasks" class="navigation-button-color"></div>
+		<span class="glyphicon glyphicon-list navigation-panel-icon"></span>
+		<label data-translate="my_tasks">My tasks</label>
+		<% if 0 < @task_count %>
+		<p class="black-overlay"><%= @task_count %></p>
+		<% end %>
+	</div>
+	<% end %>
+
+<%# <a href="{% url 'friends_list' user.id %}"> %>
+	<div data-page-type="friends" class="navigation-button">
+		<div id="color-strip-friends" class="navigation-button-color"></div>
+		<span class="glyphicon glyphicon-user navigation-panel-icon"></span>
+		<label data-translate="friends">Friends</label>
+	</div>
+<%# </a> %>
+</div>

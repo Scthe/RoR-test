@@ -41,55 +41,11 @@
 
     <section class="clearfix">
         <div class="left-cell">
-            <section class="data-section">
-                <header data-translate="task_name">Name</header>
-                <%= t.text_field :title, { :class => "form-control", :id => "task-name", :placeholder=>"Name.." } %>
-            </section>
-
-            <section class="data-section">
-                <header data-translate="task_status">Status</header>
-                    <select id="task-type" name="task[task_type]">
-                        <% Task::TASK_TYPES_L.each do |a| %>
-                            <% if a[:value] == @task.task_type_obj[:value] %>
-                                <option value="<%= a[:value] %>" selected="selected"><%= a[:display_name] %></option>
-                            <% else %>
-                                <option value="<%= a[:value] %>"><%= a[:display_name] %></option>
-                            <% end %>
-                        <% end %>
-                    </select>
-            </section>
-            <br />
-
-            <section class="data-section">
-                <header data-translate="deadline">Deadline</header>
-                <input class="form-control" id="task-deadline" type="date" name="task[deadline]" value="<%= @task.deadline %>" style="max-width: 300px;">
-            </section>
-
-            <section class="data-section">
-                <header data-translate="description">Description</header>
-
-                <%= t.text_area :description, { :class => "form-control", :id => "project-note", :rows => "3", :placeholder => "Add description.."} %>
-            </section>
+            <%= render :partial => "task_base_form", :locals=>{ t: t} %>
         </div>
 
-         <!---->
-        <!--Right panel-->
-        <!---->
         <div class="right-cell">
-            <ul id="details-list">
-               <li class="details-list-item">
-                    <p><b data-translate="created_by">Created by</b>
-                    <br />
-                    <span class="details-info">
-                        <%= @task.created_by %>
-                    </span></p>
-                </li>
-                <li class="details-list-item">
-                    <p><b data-translate="created_date">Creation date</b>
-                    <br />
-                    <span class="details-info"><%= @task.created_at %></span></p>
-                </li>
-            </ul>
+            <%= render :partial => "details", locals: { all: false} %>
         </div>
     </section>
 
@@ -116,46 +72,7 @@
         </div>
     </section>
 
-<%#
-{% if not new_task %}
-
-    <section class="data-section">
-        <header data-translate="files">Files</header>
-        <ul id="files-list" class="clearfix">
-
-            {% for file in task.files %}
-            <li class="files-list-item" data-type="{{file.type|lower}}" data-file-id="{{ file.id }}">
-
-                <!--icon-->
-                {% if file.type == "Document" %}
-                    <span class="glyphicon glyphicon-file"></span>
-                {% else %}
-                    {% if file.type == "Image" %}
-                        <span class="glyphicon glyphicon-camera"></span>
-                    {% else %}
-                        {% if file.type == "Sound" %}
-                            <span class="glyphicon glyphicon-music"></span>
-                        {% else %}
-                            <span class="glyphicon glyphicon-paperclip"></span>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-
-                 <!--file name-->
-                <b>_{{ file.name }}_</b>
-                <p class="file-remove remove-button">
-                    <span class="glyphicon glyphicon-remove"></span>
-                <p>
-            </li>
-            {% endfor %}
-
-        </ul>
-    </section>
-
-{% endif %}
-%>
-
-<!--save and back buttons-->
+    <!--save and back buttons-->
     <%= link_to task_path( @task) do %>
         <div class="task-button pull-left">
            <span data-translate="back">Back</span>
@@ -168,9 +85,7 @@
 <% end %>
 
 
-<!---->
 <!--dialog-->
-<!---->
 <div id="assignment-dialog">
     <span id="assignment-dialog-close" class="glyphicon glyphicon-remove"></span>
 

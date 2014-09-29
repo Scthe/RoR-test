@@ -1,0 +1,33 @@
+<% wrap ||= false %>
+<% if wrap %>
+<section class="data-section">
+
+    <div id="view-header-right">
+        <%= link_to new_task_path do %>
+        <div id="task-create" class="project-button">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span data-translate="task_add">add new task</span>
+        </div>
+        <% end %>
+    </div>
+
+    <header class="clearfix" data-translate="my_tasks">Tasks</header>
+<% end %>
+
+
+<table id="tasks-table">
+    <tr>
+        <th class="tasks-cell tasks-col1" data-translate="active">Active</th>
+        <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
+        <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
+        <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
+    </tr>
+
+    <%= render partial: "tasks/task_table_row", collection: tasks, as: :task, locals: { editable: editable} %>
+
+</table>
+
+
+<% if wrap %>
+</section>
+<% end %>

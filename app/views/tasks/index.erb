@@ -6,29 +6,5 @@
 <span data-translate="my_tasks">My tasks</span>
 <% end %>
 
-<table id="tasks-table">
-    <tr>
-        <th class="tasks-cell tasks-col1" data-translate="active">Active</th>
-        <th class="tasks-cell tasks-col2" data-translate="title">Title</th>
-        <th class="tasks-cell tasks-col3" data-translate="assigned_to">Assigned to</th>
-        <th class="tasks-cell tasks-col4" data-translate="deadline">Deadline</th>
-    </tr>
 
-    <% @task_list.each do |task| %>
-    <tr>
-        <td class="tasks-cell tasks-col1"></td>
-        <td class="tasks-cell tasks-col2">
-            <%= link_to task.title, task_path(task) %>
-        </td>
-        <td class="tasks-cell tasks-col3">
-           <% unless task.person_responsible.nil? %>
-                    <%= link_to task.person_responsible, user_path(task.person_responsible) %>
-              <% else %>
-                  <span data-translate="not_assigned">Not assigned yet</span>
-              <% end %>
-        </td>
-        <%# td class="tasks-cell tasks-col4">{{ task.deadline|date:"d-m-Y" }}</td %>
-        <td class="tasks-cell tasks-col4"><%= task.deadline %></td>
-    </tr>
-    <% end %>
-</table>
+<%= render partial: "tasks/task_table", locals: { tasks: @task_list, editable: false} %>
