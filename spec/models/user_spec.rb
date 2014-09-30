@@ -13,27 +13,27 @@ RSpec.describe User, :type => :model do
       expect(@user.valid?).to be true
     end
 
-    it "should not be valid with incorrect username" do
+    it "has correct username" do
       expect(build(:user_a, username:   nil).valid?).to be false
       expect(build(:user_a, username:   "Aa").valid?).to be false
       expect(build(:user_a, username:   "User$Abc").valid?).to be false
     end
 
-    it "should allow blank first and lastname" do
+    it "is correct without first and lastname" do
       u = @user
       u.lastname = nil
       u.firstname = nil
       expect(u.valid?).to be true
     end
 
-    it "should not be valid with incorrect first and lastname" do
+    it "has correct first and lastname" do
       expect(build(:user_a, lastname:      "a").valid?).to be false
       expect(build(:user_a, lastname:   "Aa9a").valid?).to be false
       expect(build(:user_a, firstname:     "a").valid?).to be false
       expect(build(:user_a, firstname:  "Aa9a").valid?).to be false
     end
 
-    it "gender should be valid only in 2 cases ( oh, wow !)" do
+    it "has correct gender" do
       test = {
         User::MALE[:value] => true,
         User::FEMALE[:value] => true,
@@ -45,7 +45,7 @@ RSpec.describe User, :type => :model do
       end
     end
 
-    it "should not require gender" do
+    it "does not require providing gender" do
       expect(build(:user_a, gender:  nil).valid?).to be true
     end
 
@@ -53,7 +53,7 @@ RSpec.describe User, :type => :model do
     #
   end
 
-  it "should preety print name correctly" do
+  it "preety prints name correctly" do
     u = build(:user_a)
     expect(u.to_s).to eq("George Washington")
 

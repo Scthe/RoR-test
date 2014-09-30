@@ -8,7 +8,7 @@ RSpec.describe ProjectPerson, :type => :model do
 
 
 	context "validation" do
-		it "should have correct role" do
+		it "has correct role" do
 			ProjectPerson::ROLES.each do |t|
 				@pp.role = t
 				expect(@pp.valid?).to be true

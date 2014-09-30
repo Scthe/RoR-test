@@ -6,7 +6,7 @@ RSpec.describe ApplicationController, :type => :controller do
 
 	describe "smoke tests" do
 
-		it "should get index" do
+		it "#index" do
 			get :index
 			expect(response).to be_success
 			expect(response).to have_http_status(200)

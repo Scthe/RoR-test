@@ -12,7 +12,7 @@ RSpec.describe TasksController, :type => :controller do
 
 	describe "smoke tests" do
 
-		it "should get index" do
+		it "#index" do
 			@tasks = [ build(:task_a), build(:task_b)]
 			controller.current_user.tasks_to_do = @tasks
 
@@ -27,7 +27,7 @@ RSpec.describe TasksController, :type => :controller do
 			expect(assigns(:task_count)).to eq(@tasks.length)
 		end
 
-		it "should get show" do
+		it "#show" do
 			allow(Task).to receive(:find_).and_return(@task)
 			get :show, id: 1
 			expect(response).to be_success
@@ -38,7 +38,7 @@ RSpec.describe TasksController, :type => :controller do
 			expect(assigns(:task)).to eq(@task)
 		end
 
-		it "should get edit" do
+		it "#edit" do
 			allow(Task).to receive(:find_).and_return(@task)
 			get :edit, id: 1
 			expect(response).to be_success
@@ -49,7 +49,7 @@ RSpec.describe TasksController, :type => :controller do
 			expect(assigns(:task)).to eq(@task)
 		end
 
-		it "should get new" do
+		it "#new" do
 			allow(Project).to receive(:find).and_return( build(:project_a))
 			get :new
 			expect(response).to be_success
@@ -63,28 +63,28 @@ RSpec.describe TasksController, :type => :controller do
 
 	context "fail to get task" do
 
-		context "show" do
-			it "should 403 if project not found" do
+		context "#show" do
+			it "checks if project exists" do
 				expect(Task).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
 				get :show, id: 0
 				expect(response).to have_http_status(403)
 			end
 
-			it "should 403 if user is not memeber of the project" do
+			it "checks if user is a member of the project" do
 				allow(controller.current_user).to receive(:member_of?).and_return( false)
 				get :show, id: 0
 				expect(response).to have_http_status(403)
 			end
 		end
 
-		context "edit" do
-			it "should 403 if task not found" do
+		context "#edit" do
+			it "checks if project exists" do
 				expect(Task).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
 				get :edit, id: 0
 				expect(response).to have_http_status(403)
 			end
 
-			it "should 403 if user is not memeber of the project" do
+			it "checks if user is a member of the project" do
 				allow(controller.current_user).to receive(:member_of?).and_return( false)
 				get :edit, id: 0
 				expect(response).to have_http_status(403)
@@ -94,8 +94,8 @@ RSpec.describe TasksController, :type => :controller do
 
 	context "API" do
 
-		describe "create" do
-			it "should return created task" do
+		describe "#create" do
+			it "returns created task" do
 				task = build(:task_a, id: 1234)
 				r = true, task
 				expect(Task).to receive(:create).and_return( r)
@@ -112,7 +112,7 @@ RSpec.describe TasksController, :type => :controller do
 				expect(response).to have_http_status(201)
 			end
 
-			it "should return list of errors if data is not ok" do
+			it "returns list of errors if data is not ok" do
 				l = { "a" => 1, "b" => 2}
 				r = false, (double errors: l)
 				expect(Task).to receive(:create).and_return( r)
@@ -127,8 +127,8 @@ RSpec.describe TasksController, :type => :controller do
 			end
 		end
 
-		describe "update" do
-			it "should return status ok for correct data" do
+		describe "#update" do
+			it "returns status ok for correct data" do
 				task = build(:task_a, id: 1234)
 				r = true, task
 				expect(Task).to receive(:update).and_return( r)
@@ -145,7 +145,7 @@ RSpec.describe TasksController, :type => :controller do
 				expect(response).to have_http_status(200)
 			end
 
-			it "should not update on incorrect data" do
+			it "does not update with incorrect data" do
 				l = { "a" => 1, "b" => 2}
 				r = false, (double errors: l)
 				expect(Task).to receive(:update).and_return( r)
@@ -160,7 +160,7 @@ RSpec.describe TasksController, :type => :controller do
 				expect(response).to have_http_status(422)
 			end
 
-			it "should not update not existing project" do
+			it "checks if project exists" do
 				expect(Task).to receive(:update).and_raise( ActiveRecord::RecordNotFound)
 
 				@request.headers["Accept"] = "application/json"
@@ -173,8 +173,8 @@ RSpec.describe TasksController, :type => :controller do
 			end
 		end
 
-		describe "destroy" do
-			it "should return url to tasks list" do
+		describe "#destroy" do
+			it "returns url to tasks list" do
 				task = build(:task_a, id: 1234)
 				expect(Task).to receive(:find_).and_return( task)
 
@@ -188,7 +188,7 @@ RSpec.describe TasksController, :type => :controller do
 				expect(response).to have_http_status(200)
 			end
 
-			it "should not delete project that does not exists" do
+			it "checks if project exists" do
 				expect(Task).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
 
 				@request.headers["Accept"] = "application/json"

@@ -15,14 +15,14 @@ RSpec.describe Task, :type => :model do
 			expect(build(:task_b).valid?).to be true
 		end
 
-		it "should have correct title" do
+		it "has correct title" do
 			expect(build(:task_a, title:  "a").valid?).to be false
 			expect(build(:task_a, title:  nil).valid?).to be false
 			expect(build(:task_a, title:  "a" * 50).valid?).to be true
 			expect(build(:task_a, title:  "a" * 51).valid?).to be false
 		end
 
-		it "should have correct type" do
+		it "has correct type" do
 			Task::TASK_TYPES.each do |t|
 				expect(build(:task_a, task_type:  t).valid?).to be true
 			end
@@ -32,7 +32,7 @@ RSpec.describe Task, :type => :model do
 		end
 	end
 
-	it "should retrieve correct task from database" do
+	it "retrieves correct task from database" do
 		user = double member_of?: true
 		task = create(:task_a, project: @project)
 		id = task.id
@@ -43,7 +43,7 @@ RSpec.describe Task, :type => :model do
 		expect(t.id).to eq( task.id)
 	end
 
-	it "should check if user can view task" do
+	it "checks if user can view task" do
 		user = double member_of?: false
 		task = create(:task_a, project: @project)
 		id = task.id

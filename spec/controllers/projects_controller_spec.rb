@@ -10,7 +10,7 @@ RSpec.describe ProjectsController, :type => :controller do
 
 	describe "smoke tests" do
 
-		it "should get index" do
+		it "#index" do
 			get :index
 			expect(response).to be_success
 			expect(response).to have_http_status(200)
@@ -21,7 +21,7 @@ RSpec.describe ProjectsController, :type => :controller do
 			expect(assigns(:projects)).to be_truthy
 		end
 
-		it "should get show" do
+		it "#show" do
 			allow(Project).to receive(:find_).and_return(@project)
 			get :show, id: 0
 			expect(response).to be_success
@@ -32,7 +32,7 @@ RSpec.describe ProjectsController, :type => :controller do
 			expect(assigns(:project)).to eq(@project)
 		end
 
-		it "should get edit" do
+		it "#edit" do
 			allow(Project).to receive(:find_).and_return(@project)
 			get :edit, id: 0
 			expect(response).to be_success
@@ -43,7 +43,7 @@ RSpec.describe ProjectsController, :type => :controller do
 			expect(assigns(:project)).to eq(@project)
 		end
 
-		it "should get new" do
+		it "#new" do
 			get :new
 			expect(response).to be_success
 			expect(response).to have_http_status(200)
@@ -55,28 +55,29 @@ RSpec.describe ProjectsController, :type => :controller do
 	end
 
 	context "fail to get project" do
-		context "show" do
-			it "should 403 if project not found - show" do
+
+		context "#show" do
+			it "checks if project exists" do
 				expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
 				get :show, id: 0
 				expect(response).to have_http_status(403)
 			end
 
-			it "should 403 if user is not memeber of the project - show" do
+			it "checks if user is a member of the project" do
 				allow(controller.current_user).to receive(:member_of?).and_return( false)
 				get :show, id: 0
 				expect(response).to have_http_status(403)
 			end
 		end
 
-		context "edit" do
-			it "should 403 if project not found - edit" do
+		context "#edit" do
+			it "checks if project exists" do
 				expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
 				get :edit, id: 0
 				expect(response).to have_http_status(403)
 			end
 
-			it "should 403 if user is not memeber of the project - edit" do
+			it "checks if user is a member of the project" do
 				allow(controller.current_user).to receive(:member_of?).and_return( false)
 				get :edit, id: 0
 				expect(response).to have_http_status(403)
@@ -86,8 +87,8 @@ RSpec.describe ProjectsController, :type => :controller do
 
 	context "API" do
 
-		describe "create" do
-			it "should return created project" do
+		describe "#create" do
+			it "returns created project" do
 				p = build(:project_a, id: 1234)
 				r = true, p
 				expect(Project).to receive(:create).and_return( r)
@@ -104,7 +105,7 @@ RSpec.describe ProjectsController, :type => :controller do
 				expect(response).to have_http_status(201)
 			end
 
-			it "should return list of errors if data is not ok" do
+			it "returns list of errors if data is not ok" do
 				l = { "a" => 1, "b" => 2}
 				r = false, (double errors: l)
 				expect(Project).to receive(:create).and_return( r)
@@ -119,8 +120,8 @@ RSpec.describe ProjectsController, :type => :controller do
 			end
 		end
 
-		describe "update" do
-			it "should return status ok for correct data" do
+		describe "#update" do
+			it "returns status ok for correct data" do
 				p = build(:project_a, id: 1234)
 				r = true, p
 				expect(Project).to receive(:update).and_return( r)
@@ -143,7 +144,7 @@ RSpec.describe ProjectsController, :type => :controller do
 				expect(response).to have_http_status(200)
 			end
 
-			it "should not update on incorrect data" do
+			it "does not update with incorrect data" do
 				l = { "a" => 1, "b" => 2}
 				r = false, (double errors: l)
 				expect(Project).to receive(:update).and_return( r)
@@ -164,7 +165,7 @@ RSpec.describe ProjectsController, :type => :controller do
 				expect(response).to have_http_status(422)
 			end
 
-			it "should not update not existing project" do
+			it "checks if project exists" do
 				expect(Project).to receive(:update).and_raise( ActiveRecord::RecordNotFound)
 
 				h = {
@@ -182,7 +183,7 @@ RSpec.describe ProjectsController, :type => :controller do
 				expect(response).to have_http_status(403)
 			end
 
-			it "should raise error on not parseable id arrays" do
+			it "raises error on not parseable id arrays" do
 				r = true, @project_a
 				allow(Project).to receive(:update).and_return( r)
 
@@ -196,8 +197,8 @@ RSpec.describe ProjectsController, :type => :controller do
 			end
 		end
 
-		describe "destroy" do
-			it "should return url to project list" do
+		describe "#destroy" do
+			it "returns url to project list" do
 				expect(Project).to receive(:find_).and_return( @project)
 
 				@request.headers["Accept"] = "application/json"
@@ -210,7 +211,7 @@ RSpec.describe ProjectsController, :type => :controller do
 				expect(response).to have_http_status(200)
 			end
 
-			it "should not delete project that does not exists" do
+			it "checks if project exists" do
 				expect(Project).to receive(:find_).and_raise( ActiveRecord::RecordNotFound)
 
 				@request.headers["Accept"] = "application/json"

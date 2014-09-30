@@ -54,13 +54,15 @@ RSpec.describe "login process", :type => :feature do
 		end
 	end
 
-	it "is not necessary if user is already logged in", :js => true do
-		user = create( :user_a)
-		login_as(user, scope: :user)
+	context "when logged in" do
+		it "is not necessary", :js => true do
+			user = create( :user_a)
+			login_as(user, scope: :user)
 
-		visit '/'
+			visit '/'
 
-		expect(page).to have_content 'Dashboard'
+			expect(page).to have_content 'Dashboard'
+		end
 	end
 
 	it "allows me to logout", :js => true do

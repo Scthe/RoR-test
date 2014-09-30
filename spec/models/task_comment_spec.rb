@@ -9,7 +9,7 @@ RSpec.describe TaskComment, :type => :model do
 
 
 	context "validation" do
-		it "text should be proper length" do
+		it "has proper length" do
 			expect(@comment1.valid?).to be true
 
 			@comment1.text = "a" * 140
