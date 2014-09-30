@@ -55,14 +55,12 @@ class ApplicationController < ActionController::Base
 =begin
 
 # TODO heroku & capistrano
-# TODO logout
 # TODO force https
 #
 # TODO integration tests
 # TODO task create - should have some better reference to project ( use url)
 # TODO add comments as inner resource for task
 # TODO code coverage
-# TODO remove comments
 #
 # TODO check CSRF tokens with REST api
 # TODO use jade
