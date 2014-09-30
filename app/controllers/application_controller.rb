@@ -22,10 +22,6 @@ class ApplicationController < ActionController::Base
 	def settings
 	end
 
-	def logout
-		redirect_to "/"
-	end
-
 	def login
 		return redirect_to dashboard_path if user_signed_in?
 
@@ -52,6 +48,10 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+	def after_sign_out_path_for(resource_or_scope)
+		:login
+	end
+
 =begin
 
 # TODO heroku & capistrano
@@ -61,6 +61,8 @@ class ApplicationController < ActionController::Base
 # TODO integration tests
 # TODO task create - should have some better reference to project ( use url)
 # TODO add comments as inner resource for task
+# TODO code coverage
+# TODO remove comments
 #
 # TODO check CSRF tokens with REST api
 # TODO use jade

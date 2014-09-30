@@ -63,6 +63,17 @@ RSpec.describe "login process", :type => :feature do
 		expect(page).to have_content 'Dashboard'
 	end
 
+	it "allows me to logout", :js => true do
+		user = create( :user_a)
+		login_as(user, scope: :user)
+
+		visit '/dashboard'
+		expect(page).to have_content 'Dashboard'
+
+		find('#navigation-bar-logout').click
+		expect(page).to have_content 'Sign up now'
+	end
+
 =begin TODO why this test fails with SQLite3::BusyException ?
 	it "checks if both passwords are the same", :js => true do
 		visit '/'
